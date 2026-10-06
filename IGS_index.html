@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Unsent Diaries — Poems &amp; Compositions by IGS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0c0a08;--card:#16120e;--ink:#efe6da;--mute:#a39685;--accent:#ff8a1f;--line:#2c241b;
+--serif:"Cormorant Garamond",Georgia,"Times New Roman",serif;--display:Cinzel,"Trajan Pro",Georgia,serif}
+:root[data-theme="light"]{--bg:#fbf3e7;--card:#fffaf2;--ink:#1a120a;--mute:#6f5f4d;--accent:#c85a00;--line:#e4d3bb}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--serif);font-size:20px;line-height:1.6;transition:background .3s,color .3s}
+a{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+header{position:sticky;top:0;z-index:5;display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 5vw;background:var(--bg);border-bottom:1px solid var(--line)}
+.logo{font-weight:700;font-size:1.4rem;color:var(--accent);text-decoration:none;letter-spacing:.04em;font-style:italic}
+nav{display:flex;gap:18px;align-items:center}
+nav a{color:var(--ink);text-decoration:none}
+nav a:hover{color:var(--accent)}
+button{font:inherit;cursor:pointer}
+#theme{background:none;border:1px solid var(--line);color:var(--ink);border-radius:20px;padding:2px 12px}
+main{max-width:1000px;margin:0 auto;padding:0 5vw}
+section{padding:56px 0}
+.hero{padding-top:80px}
+h1{font-family:var(--display);font-size:clamp(3.5rem,14vw,8rem);line-height:.9;margin:0;color:var(--accent);font-weight:700;letter-spacing:.12em}
+.bio{max-width:34ch;font-style:italic;color:var(--mute);font-size:1.4rem;margin:18px 0 48px}
+h2{font-size:1.9rem;margin:0 0 20px}
+.featured{border-left:3px solid var(--accent);padding:6px 0 6px 22px;cursor:pointer}
+.featured h3{font-size:2rem;margin:0}
+.featured p{color:var(--mute);margin:8px 0;max-width:60ch;white-space:pre-line}
+.readmore{color:var(--accent)}
+.tools{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:24px}
+#q{flex:1 1 220px;background:var(--card);border:1px solid var(--line);color:var(--ink);font:inherit;padding:8px 14px;border-radius:6px}
+.chip{background:none;border:1px solid var(--line);color:var(--ink);padding:4px 16px;border-radius:20px}
+.chip[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:#0c0a08}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:18px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:6px;padding:20px;text-align:left;color:var(--ink);transition:border-color .2s}
+.card:hover{border-color:var(--accent)}
+.card h3{margin:0 0 4px;font-size:1.4rem}
+.card .cat{color:var(--accent);font-size:.9rem;font-style:italic}
+.card p{margin:8px 0 0;color:var(--mute);font-size:1rem;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.empty{color:var(--mute);font-style:italic}
+#reader{max-width:640px;margin:0 auto;padding:40px 0 80px}
+#reader h1{font-family:var(--serif);font-size:clamp(2.2rem,8vw,3.6rem);line-height:1.05;letter-spacing:0}
+.sub{color:var(--mute);font-style:italic;margin:6px 0 0}
+.text{margin-top:36px;font-size:1.25rem;line-height:1.75}
+.text p{margin:0 0 1.6em;white-space:pre-line}
+.back{background:none;border:0;color:var(--accent);padding:0;margin:40px 0 0}
+footer{border-top:1px solid var(--line);padding:40px 5vw;text-align:center;color:var(--mute)}
+.hidden{display:none}
+/* --- Motion and graphics --- */
+.hero{position:relative}
+.hero::before{content:"";position:absolute;left:-10vw;top:0;width:70vw;height:90%;background:radial-gradient(closest-side,var(--accent),transparent);opacity:.14;pointer-events:none;animation:glow 7s ease-in-out infinite alternate}
+#embers{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.hero>*:not(#embers){position:relative}
+h1 .ch{display:inline-block;opacity:0;transform:translateY(.4em);filter:blur(8px);animation:ch .9s cubic-bezier(.2,.7,.2,1) forwards}
+.bio,.featured{opacity:0;animation:fade 1s ease 1s forwards}
+.featured{animation-delay:1.4s;transition:padding .25s,border-color .25s}
+.featured:hover{padding-left:34px}
+.card{position:relative;overflow:hidden;transition:transform .25s,border-color .25s,box-shadow .25s}
+.card::after{content:"";position:absolute;left:0;bottom:0;height:2px;width:0;background:var(--accent);transition:width .35s}
+.card:hover{transform:translateY(-4px);box-shadow:0 10px 30px -12px var(--accent)}
+.card:hover::after{width:100%}
+h2{display:inline-block;position:relative;padding-bottom:8px}
+h2::after{content:"";position:absolute;left:0;bottom:0;width:60%;height:2px;background:var(--accent)}
+.card,.grid .empty{animation:fade .5s ease both}
+#reader{animation:fade .7s ease both}
+#reader h1{animation:none}
+.text p:first-child::first-letter{float:left;font-size:3.6em;line-height:.8;padding:.06em .1em 0 0;color:var(--accent);font-weight:700}
+.orn{text-align:center;color:var(--accent);letter-spacing:.6em;margin:40px 0 0}
+@keyframes ch{to{opacity:1;transform:none;filter:none}}
+@keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes glow{to{opacity:.24;transform:translate(4vw,3vh) scale(1.08)}}
+@media(prefers-reduced-motion:reduce){.hero::before{animation:none}h1 .ch,.bio,.featured,.card,#reader{animation:none;opacity:1;transform:none;filter:none}}
+@media(max-width:560px){.logo{font-size:1.05rem;letter-spacing:.01em}body{font-size:18px}nav{gap:12px}.hero{padding-top:48px}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<header>
+  <a class="logo" href="#/">The Unsent Diaries</a>
+  <nav>
+    <a href="#/poems">Poems</a>
+    <a href="#/contact">Contact</a>
+    <button id="theme" aria-label="Toggle dark or light mode">Light</button>
+  </nav>
+</header>
+
+<main id="home-view">
+  <section class="hero">
+    <canvas id="embers" aria-hidden="true"></canvas>
+    <h1>IGS</h1>
+    <p class="bio" id="bio"></p>
+    <div class="featured" id="featured" tabindex="0" role="link"></div>
+  </section>
+  <section id="poems">
+    <h2>Poems &amp; compositions</h2>
+    <div class="tools">
+      <input id="q" type="search" placeholder="Search by title or text" aria-label="Search poems">
+    </div>
+    <div class="tools" id="filters"></div>
+    <div class="grid" id="grid"></div>
+  </section>
+  <section id="contact">
+    <h2>Contact</h2>
+    <p id="contacts"></p>
+  </section>
+</main>
+
+<main id="read-view" class="hidden">
+  <article id="reader"></article>
+</main>
+
+<footer>The Unsent Diaries · © <span id="yr"></span> IGS</footer>
+
+<script>
+/* =========================================================
+   SITE SETTINGS — edit these
+   ========================================================= */
+const SITE = {
+  title: "The Unsent Diaries", // site name shown in the header, tab and footer
+  name: "IGS",         // your pen name, shown large on the home page
+  bio: "My life, my story.",
+  // Add or change links. Delete any you don't want.
+  contacts: [
+    { label: "Email", href: "mailto:you@example.com" },
+    { label: "Instagram", href: "https://instagram.com/yourhandle" }
+  ]
+};
+
+/* =========================================================
+   YOUR POEMS — ALL IN ONE LIST
+   To add a new piece, copy one block below (from { to },) and paste it
+   at the END of the list (before the closing ]). Then fill in:
+     id        – a short unique word, lowercase, no spaces (e.g. "rain")
+     title     – the title
+     subtitle  – optional line under the title ("" if none)
+     category  – any word, e.g. "Poem", "Composition", "Love". New
+                 categories get their own filter button automatically.
+     featured  – true on ONE piece to show it on the home page
+     text      – between the backticks ` `. Press Enter for line breaks;
+                 leave an empty line between stanzas/paragraphs.
+                 Don't use a backtick ( ` ) inside the text.
+   ========================================================= */
+const POEMS = [
+{
+  id: "life-is-a-gamble",
+  title: "Life Is a Gamble",
+  subtitle: "",
+  category: "Composition",
+  featured: false,
+  text: `To wake each morning is to place a wager with a dealer who never shows his hand. You stir from sleep, take a breath, and call it certainty — but certainty is a luxury the living only borrow, never own outright. You have buried friends who once believed, as fiercely as you do now, that tomorrow was a debt owed to them. It wasn't. Tomorrow owes no one anything. And yet, absurdly, magnificently, you rise anyway. You plan anyway. You set alarms for a future that has never once signed a contract guaranteeing your presence in it. That is not foolishness — that is faith wearing the disguise of routine, the quiet defiance of a gambler who keeps playing not because the odds favor him, but because folding is its own kind of death.
+
+You are told that discipline is destiny — that if you study hard enough, sit still enough, memorize enough, the gates of opportunity will part for you like water before a prophet. But the world is not so obedient to merit. You can graduate top of your class and still watch the door stay shut, while someone less studious walks through it on the arm of a connection you never had. The classroom teaches you theory; the workplace teaches you truth, and the two rarely speak the same language. You arrive at your first job clutching a certificate like a talisman, only to discover it opens the gate but does not walk the path — that is done through trial, through the humbling apprenticeship of error, through the slow accumulation of scars that no lecture hall ever mentioned. Months later, you are competent not because of what you were taught, but because of what you survived.
+
+And when you finally sit behind the desk with your name on the door, be honest with yourself: the title is not a coronation of your brilliance. It is a wager that paid off — a chair reserved by a piece of paper as much as by your mind. Countless others, equally sharp, equally relentless, are still waiting for their card to be drawn. Do not mistake the fall of the dice for the weight of your own hand. Humility is simply gambling with your eyes open.
+
+You love again after love has already betrayed you once, twice, more — and each time you convince yourself this is the hand that finally holds a full house. You said the same the last time, and the time before that, and still the table cleared you out. Yet here you sit, chips in hand, heart in hand, betting on a stranger's permanence in a world where even your own permanence is unconfirmed. That is not naivety. That is the terrifying, stubborn romance of being human — to know the house usually wins, and to sit down and play anyway.
+
+You build a business on hope alone — no customers promised, no revenue guaranteed, only a vision and a checkbook you empty like a libation poured to gods who may or may not be listening. You raise a child the way you'd plant a seed in soil whose composition you cannot see — watering it daily, praying the roots go where you intend, knowing full well that some seeds twist toward the light and others toward the rot. A daughter's future can be undone by a single reckless night. A son's ambition can be hijacked by the wrong street corner, the wrong friend, the wrong needle. You do everything right and still lose. You do everything wrong and still, somehow, win. The dice do not consult your effort before they land.
+
+And still — still — you climb into the very car that betrayed your friend yesterday, engine humming beneath you like a held breath, and you drive to bury him. Because grief does not exempt you from risk; it merely reminds you, cruelly, intimately, that you are still enrolled in the same game he just lost.
+
+So yes — life is a gamble, from the first involuntary breath to the last. Every plan is a bet placed against a future that refuses to reveal its cards. Every love is a wager staked on a heart not yet proven trustworthy. Every child raised, every business opened, every road traveled is a coin tossed into a well too deep to hear it land. We do not live because we are certain. We live because uncertainty, somehow, has never once been reason enough to stop playing.`
+},
+{
+  id: "signed-sealed",
+  title: "Signed, Sealed",
+  subtitle: "",
+  category: "Poem",
+  featured: true,
+  text: `We were still "Youth" when it started,
+back when I thought "text me when you're home safe" was just being polite,
+not a whole personality shift.
+
+I came to you like "Wolves" at the door
+mostly hunger, a little bit feral,
+zero chill whatsoever.
+You didn't run.
+You just said "took you long enough" and let me in.
+
+"In My Blood" you live now,
+which is a very poetic way of saying
+I think about you at genuinely inconvenient times,
+including but not limited to — grocery shopping.
+
+Some nights are "Champagne Problems"
+too much good fortune, not enough impulse control,
+and somehow we still end up
+arguing about whose turn it is to get up and lock the door.
+
+"Last Call" came and went.
+Everyone else went home.
+I stayed, mostly because you make a face
+when you're winning at convincing me to stay
+and I am, historically, weak to that face.
+
+You whisper "It'll Be Okay"
+in the same tone you use for "I definitely paid that bill"
+confident, unverified, somehow always correct.
+
+"Just Us" against whatever comes,
+door locked, phones off,
+one (1) blanket we will fight over by 2 am
+like it's a hostile takeover.
+
+"Everything I Need" was never far
+it was here, it was you,
+it was also, annoyingly, you eating the last slice
+while maintaining full eye contact.
+
+They say some people are "God's Favorite."
+I think it's just the ones who stayed
+through the bad jokes, the worse mornings,
+the ones who chose "Love Me More"
+instead of the objectively easier option
+of just... not doing any of this.
+
+We didn't pick easier.
+We picked this.
+Send help. Send snacks. We're staying in`
+},
+{
+  id: "dear-pops",
+  title: "Dear Pops",
+  subtitle: "a letter never mailed",
+  category: "Poem",
+  featured: false,
+  text: `Dear Pops,
+or should I say,
+Contributor of Chromosomes,
+thank you... for the name,
+five syllables long and lacking in meaning—
+but hey, you did your part.
+I carry it like a surname-shaped ghost,
+a shadow stitched to my signature,
+a trophy from a race you never ran.
+
+You dialed once—twice,
+perhaps to check
+if gravity still kept me grounded
+or if oxygen still liked my lungs.
+No birthday calls,
+but hey—who needs candles
+when your absence burns better?
+
+You boast twenty children.
+Impressive.
+A human factory
+with no quality control.
+Was I number six? Or seventeen?
+Hard to tell when your affection
+comes with a waiting list.
+
+You once told me,
+“Son, I’m proud of you.”
+But I had just sneezed.
+Guess your standards
+were surprisingly allergic to effort.
+
+I rang your phone once—
+cracked voice, broken pride,
+and you answered with silence
+so loud, it killed hope in stereo.
+That day I learned
+real men cry
+into their own ribcages.
+
+My first memory of you
+was in prison.
+How poetic.
+Barred windows, locked hearts—
+you were free inside
+but jailed in my mind.
+You smelled of rust and regrets,
+and still tried to teach me
+how to be a man
+from behind Plexiglas wisdom.
+Spoiler alert: I learned anyway—
+mostly by watching what not to be.
+
+You see, Pops,
+I don’t hate you.
+Hate takes effort.
+I just put you on a dusty shelf
+in the museum of missed fathers,
+somewhere between
+"Unreliable" and "Unavailable."
+
+So cheers—
+to the name you gave,
+to the child you forgot,
+and to this poem you’ll never read.
+Sincerely,
+Your afterthought.`
+},
+{
+  id: "the-burden-of-small-things",
+  title: "The Burden of Small Things",
+  subtitle: "",
+  category: "Composition",
+  featured: false,
+  text: `Life is a curious journey. Sometimes we walk through it with the confidence that we have everything figured out, only to wake up one day and realize we do not have a clue. Every choice we make, however simple it may appear, carries the potential to alter the course of our story. And when those choices go wrong, there is no escape from the truth—we must face the consequences, own them, and gather the courage to move forward.
+
+What fascinates me most is the irony of life. The matters we often treat as small, the ones we brush aside with little thought, tend to grow into mountains that weigh heavily upon us later. They become the most difficult challenges we ever encounter. Meanwhile, those issues that appear grand and threatening in the moment often shrink with time, becoming nothing more than shadows we once feared.
+
+The danger lies in underestimating the little things. A decision made carelessly, a responsibility neglected, a word spoken too lightly—all these have the power to echo through our lives with consequences far greater than we anticipated. They trap us in regrets, haunt our nights with restless thoughts, and follow us through the day like an unshakable shadow.
+
+In the end, we learn that nothing in life is truly small. Every choice matters. Every action plants a seed that grows into something greater, for good or for ill. And perhaps the wisdom of living lies in treating even the tiniest matters with the seriousness they deserve—because sometimes, it is the smallest stone that causes the greatest ripple.
+
+.`
+},
+{
+  id: "the-laws-of-nature",
+  title: "The Laws of Nature",
+  subtitle: "",
+  category: "Composition",
+  featured: false,
+  text: `At eighteen, life opens differently for each soul.
+For a young woman, the world already seems to notice her. She carries beauty, youth, and promise — her value, in society’s eyes, shines effortlessly. She doesn’t have to earn attention; it finds her. Yet, the greatest test she faces is how to protect it. Her choices matter — not because she lacks worth, but because she’s already born with it.
+
+For a young man, eighteen is not a celebration of value — it’s a call to arms. The world does not hand him recognition; it demands proof. He stands with empty pockets but an open horizon. His worth is not inherited — it is built, brick by brick, failure by failure, lesson by lesson.
+
+At twenty-five, the paths begin to diverge.
+The woman starts searching for stability, for love that complements her dreams. The man, still forging his path, chases goals, status, and the version of himself he hopes will someday be enough. One looks for meaning, the other for purpose — both running, both trying not to fall behind.
+
+At thirty, nature reveals its rhythm.
+The woman, once pursued, now slows her pace — not because she has failed, but because her heart seeks rest. The man, hardened by years of struggle, begins to rise. What once looked like failure now feels like foundation. His story is just beginning where hers seeks peace.
+
+But these are not rules — they are reflections.
+Nature does not discriminate; it simply observes. Every woman carries the grace of creation; every man carries the burden of becoming. One protects, one builds — and both, when wise, learn from each other.
+
+The law of nature is balance — not rivalry.
+A woman’s worth is in her wisdom; a man’s power is in his patience. When both meet in understanding, life itself becomes harmony — and time stops being a competition.`
+},
+{
+  id: "the-echo-of-me",
+  title: "The Echo of Me",
+  subtitle: "",
+  category: "Composition",
+  featured: false,
+  text: `There exists within me an echo—subtle, shadowed, and often shunned. Would you dare to meet it? Most wouldn't. Not because it is grotesque, but because it is true. It is the part of me that emerges not by invitation but by provocation—triggered, never scheduled. It does not knock. It erupts.
+
+They say a man who trembles in anger is unstable. They do not know the tremble is the body’s last negotiation before it turns volcanic. I am not ashamed of the echo; it is my hidden hymn, my midnight confession. And yet, it is not for all ears. Some secrets do not hide from fear—they hide from misunderstanding.
+
+The echo of me is a paradox. To some, I am a villain, a cold stone of a man, unyielding and selfish. To others, I am warmth itself, compassion dressed in skin. The contradiction is not a mask—it is the truth of duality. I am both. I am neither. The echo shapeshifts, responding not to the world but to the world's gaze.
+
+There is a life I offer to the public—a curated gallery of moments, polished and palatable. Then there is the life I live in whispers, revealed only to the rare few who do not flinch when the curtain falls. The echo lives in that hidden chamber, behind the grin, behind the achievements, behind the roles I am forced to perform in society’s cruel theater.
+
+Behind every "perfect" face is an ache—one so carefully veiled it becomes art. Perfection, after all, is not a goal; it is a survival instinct. We learn early that flawlessness earns affection. That mistake is shame. That silence is honor. So we build palaces of compliance and die slowly in their gardens.
+
+I mastered the act—smiled when the heart shattered, agreed when the soul rebelled. I buried my questions in layers of "respect," sealed my dreams with the ribbon of “duty.” I did not forget myself. I exiled myself. For love. For validation. For peace.
+
+But love that requires silence is not love. It is performance. And performances end.
+
+Still, I must confess: I love the echo of me. It is not polished. It is not holy. It is not safe. But it is mine. In its defiance, I find clarity. In its rebellion, I find home. The things it loves may seem dark, perhaps even sinful by society’s standards, but in them I feel the closest thing to freedom. I do not ask to be understood. I ask only not to be imprisoned by others' comfort zones.
+
+Some say I am hard to love. But tell me, how do you love when love has been weaponized? How do you trust when the world rewards the performance and punishes the truth?
+
+The echo of me has sinned. It has broken commandments, disappointed elders, shaken fists at the heavens. But it has also loved deeply, protected fiercely, and created beauty in the most unlikely places. Let those who judge remember: saints walk beside sinners, and often share the same face.
+
+The echo is lonely. Not for company—but for belonging. There is no room in this world for the misfit soul, the inconvenient truth, the disobedient heart. But I would rather be alone in my authenticity than adored in my disguise.
+
+Sometimes I wonder—have I been living my own life or someone else’s dream? The echo of me knows the answer. It reminds me of the sacrifices I made in the name of duty, of love. I became the perfect child. The perfect friend. The perfect partner. But the cost? I no longer belonged to myself.
+
+I handed over the pen that wrote my story. And in return, I received applause for a character I no longer recognized.
+
+So now, I reclaim it. The echo. The story. The sorrow. The joy.
+
+Let the world call it what it will.
+
+I call it me.
+
+“People judge me like they past perfect Like they present pretty Like they future flawless. Like in this world we don't have drug addicts, alcoholics liars, rap!sts, murderers, robbers. We all sinning Idgaf what you call it”
+
+Young MA.`
+},
+{
+  id: "is-this-a-letter",
+  title: "Is This a Letter?",
+  subtitle: "A Monologue of Pain, Growth, and Conviction",
+  category: "Composition",
+  featured: false,
+  text: `Is this a letter?
+Maybe not in the traditional sense—no pen, no paper, no envelope inked with a return address. But it feels like one. A letter addressed to the void, to the unseen hands of time, to anyone willing to listen without judgment. Perhaps, most of all, a letter to myself—to the man I’ve become, shaped not by ease but by affliction.
+
+I’ve lived a life most wouldn’t understand—not because it’s rare, but because it’s unspoken. People only see what you choose to show. What they don't see are the silent battles, the restless nights, the betrayals cloaked in friendship, or the pain that forges your voice into quiet steel.
+
+I’ve known pain intimately. Not the kind that passes with time, but the kind that redefines you. Pain that stripped away comfort, burned bridges I never built, and left me walking barefoot on broken dreams. And yet, I endure. Why? Because I’ve chosen to only keep supportive people in my life. It’s not a preference; it’s survival. When you’ve been shattered enough, you learn to only trust the hands that have held you without hurting you.
+
+For me, failure isn’t about missed chances or career missteps—it’s the inability to be a good man to those around me. A failure to be present. To not show up. I fear making the wrong move on this chessboard called life. Every choice feels like a strategy, and every misstep could be irreversible. So I tread with caution, guided by pain, but not paralyzed by it.
+
+In a world that often disappoints, there’s only been one constant—my mother. She’s the lighthouse in every storm. No matter how rough the sea, she shows up. Always. And that kind of loyalty, that love, it’s rare. It's sacred. I lean on her like the roots of a tree lean into the earth—quietly, but with everything I've got.
+
+I admit, I’m insecure about jobs. I don't get attached. I don't stick around. Maybe it’s fear, maybe it’s trauma. I’ve never found safety in permanence. But if I could go back in time, I wouldn’t change a damn thing. This journey—this pain, this joy, this heartbreak—it’s made me the man I am today. And you know what? I’m proud of him. There’s no regret in these scars. They’re the proof I survived.
+
+When it comes to love, I’ve only truly been in two relationships. The rest? Situationships. Many of them. Fleeting connections that never learned my middle name, let alone my soul. But I don’t blame them. I’ve grown. And that growth—painful as it was—paved the way for deeper love.
+
+Still, I have red flags I don’t negotiate on. A party animal? Red flag. Indecent dressing? That’s another. Showbiz personalities or people with too many “friends”? I don’t trust that. I guess that’s why most of my serious relationships have been with Muslim women—modest, grounded, not loud with the world but rich with dignity.
+
+Being a man to me isn’t about muscle or money—it’s about presence. Emotional presence. Being there in someone’s darkest hour. That’s what makes a good father, a good brother, a good friend. It’s what I needed from my own father, but never got. Now that he tries to show up? I hate it. I hate the performance of care that never existed when it mattered most.
+
+So yes, I’ve seen darkness. More than I care to admit. And it’s changed me—permanently. I don't believe in the naive goodness of people anymore. I’ve been used. Lied to. Envy disguised as praise. Kindness repaid with indifference. People want you to rise, just not higher than them. And when you do? Suddenly, they forget every good thing you ever did. Gratitude fades, but bitterness? Bitterness sticks around like a shadow.
+
+Is this a letter?
+Maybe not.
+But if it is—then it’s a letter carved in stone, not ink. A declaration, not a plea. I don’t seek pity. I seek understanding. I am who I am because life gave me no other choice.
+
+And I wouldn't have it any other way.
+
+Written by IGS
+
+“Don’t expect others to give you what you give them”`
+},
+{
+  id: "a-woman-s-journey-the-power-of-becoming",
+  title: "A Woman’s Journey: The Power of Becoming",
+  subtitle: "",
+  category: "Composition",
+  featured: false,
+  text: `At eighteen, a woman stands at the crossroads of life — full of dreams, curiosity, and possibilities. It’s the dawn of her becoming, where every choice she makes begins to shape the woman she will one day be. At that age, she may not yet understand the depth of her value, but it is already there — radiant, divine, and undeniable. She is born with worth; it does not come from validation, attention, or approval. It is hers by birthright. Her responsibility is to recognize it, protect it, and never allow the world to convince her otherwise.
+
+At twenty-five, she begins to search — not just for love, but for meaning, for purpose, for something deeper than surface smiles. She learns that love is not simply something to find but something to build, nurture, and deserve. It is at this stage that she starts to understand that being loved begins with loving herself — fully, fiercely, and unapologetically.
+
+By thirty, she slows down, not because her fire fades, but because her vision clears. She reflects, she heals, she forgives, and she learns the quiet power of peace. She’s no longer chasing validation — she’s creating value. No longer seeking approval — she’s walking in confidence.
+
+A woman’s life truly begins when she realizes that she was never meant to compete, compare, or conform — but to become. Every phase, every lesson, every scar adds to her strength.
+
+So to every woman: protect your value, honor your growth, and embrace your journey. You are not defined by time, age, or anyone’s opinion — you are defined by the courage to keep becoming everything you were created to be.`
+},
+{
+  id: "the-undeclared-sermon",
+  title: "The Undeclared Sermon",
+  subtitle: "A Confession in the Key of Halima",
+  category: "Composition",
+  featured: false,
+  text: `There is a particular kind of sin they do not warn you about in seminary.
+
+Not the loud ones — the ones with names, with weight, with chapters and verses assigned to their prosecution. No. I mean the quiet sin. The one that lives behind the sternum. The one that never announces itself, never breaks a commandment outright, yet dismantles a man more thoroughly than any transgression scripture ever bothered to catalogue.
+
+I met mine in Gayaza.
+
+Her name was Halima.
+
+She arrived the way all genuinely dangerous things do — without warning, without apology, and entirely unaware of the damage she was causing simply by existing. The boda engines on that road had always sounded like noise to me. After her, I could've sworn they were church bells, slow and deliberate, ringing in something I had no liturgy for.
+
+The sun, I am convinced, began rising earlier that season. Not out of cosmic duty. Out of competition. It had heard about her smile and was losing.
+
+Village painters laid down their brushes. Not in defeat — in reverence. There are things you do not attempt. You do not argue with thunder. You do not race a river. You do not take a brush to what God has clearly spent overtime on.
+
+Halima was one of those things.
+
+I was training my tongue for sermons then. I had memorized the cadence of scripture, the architecture of a good homily, the exact pause before "and let the church say Amen." Words were my vocation. Words were the only thing I had ever been sure of.
+
+She cured me of that certainty in an afternoon.
+
+The day she hugged me — briefly, innocently, the kind of hug that meant nothing to her and rearranged everything in me — I felt warmth move through my body like electricity through a building that had forgotten what light felt like. My knees, lifelong disciples of gravity, submitted their resignation letters on the spot. My tongue, that faithful servant of scripture, went completely dark.
+
+Not one syllable survived her.
+
+I stood there — a future priest, a boy who had rehearsed the Word — undone by a girl who hadn't even tried. Loving thy neighbour, they said. They did not specify the terms and conditions. They did not warn me about this neighbour.
+
+Here is the irony that still cuts like altar wine on an empty stomach:
+
+I was standing at a crossroads. One path led to the pulpit — to vestments and vespers, to a life of whispered Amens and Sunday morning certainty. The other path had no name yet. It smelled like her. It looked like whatever the rest of my life might have become if I had simply opened my mouth.
+
+I chose neither.
+
+I said nothing.
+
+And silence, I have since learned, is not the absence of a decision. Silence is the decision. The one that lives longest. The one that follows you into every room you enter for the rest of your life and sits down uninvited.
+
+Halima walked on.
+
+Unaware that she had nearly recruited a priest into apostasy without lifting a finger. Unaware that somewhere behind her, a boy was holding a full congregation in his chest — rows of feeling, hymns of almost, a choir of everything he never sang aloud — and that the whole service had been held in her honour, and she had never once been told.
+
+The collection plate was never passed.
+
+The sermon was never preached.
+
+The church of her remained open inside me, empty and echoing, the way all sacred spaces feel when no one comes.
+
+Maybe that is the thing about love that stays in the throat.
+
+It does not disappear. It does not dissolve quietly with time and good sense. It calcifies. It becomes architecture. It becomes the reason certain songs hit differently, the reason Gayaza still sounds like a word with too much meaning, the reason a grown man can close his eyes and still feel the exact temperature of a hug that lasted four seconds and lasted forever.
+
+Confessed love, even when it falls — even when it lands wrong, even when it is not returned — at least it lived. It breathed open air. It had a beginning and an end and something to show for itself.
+
+But a love left in the throat?
+
+That one outlives everything. That one never gets a funeral.
+
+So.
+
+Father, forgive me.
+
+For I have sinned — quietly, completely, and in the direction of Halima.
+
+I held a sermon I never preached. I loved a girl who never knew.
+
+I stood at the altar of something real and walked away without genuflecting.
+
+And if that is apostasy — if choosing silence over courage makes a sinner of me —
+
+then I confess it fully.
+
+I confess it without shame.
+
+I regret the silence.
+
+I do not regret her.
+
+This is yours. Every word of it earned.`
+},
+{
+  id: "her-mother-s-shadow",
+  title: "Her Mother's Shadow",
+  subtitle: "by a Silent Daughter",
+  category: "Poem",
+  featured: false,
+  text: `She walks the road she did not chart,
+With someone else's dream carved in her heart.
+Her hands—so skilled, her mind—so wide,
+Yet she walks the path where her truth can't hide.
+
+She speaks with brilliance, bold and bright,
+A voice that could spark the world alight.
+But when she stands at her own soul’s gate,
+She trades her voice for her mother’s fate.
+
+She wears her mother’s hopes like skin,
+So tight she can't breathe the dreams within.
+She smiles for show, plays strong and tough,
+Pretends the burden isn't enough.
+
+Her dreams sit quiet in the attic of her chest,
+Tamed by love, or guilt at best.
+Not because she’s weak or small—
+But because she fears to disappoint at all.
+
+The girl knows what she wants to be—
+She sees her greatness silently.
+But mirrors lie when shaped by hands
+That measure worth by their own plans.
+
+Sometimes she weeps behind her pride,
+A fire dimmed, not yet died.
+The world may cheer, “She’s got it all,”
+But she’s a guest inside her own soul’s hall.
+
+She learned to be sharp where warmth once grew,
+To guard her soul like her mother taught her to.
+If her mother held no mission, she'd feel erased,
+An empty shell, a dream misplaced.
+She lives in denial, wears strength like steel,
+But silence knows what she refuses to feel.`
+},
+{
+  id: "the-crooked-horn-of-otieno",
+  title: "The Crooked Horn of Otieno",
+  subtitle: "",
+  category: "Story",
+  featured: false,
+  text: `In the northern cradle of Acholi land, where the wind carried echoes of ancestral drums across the hills of Lamwo and the millet fields bowed under the weight of ripening grain, there lived a man named Otieno. At twenty-nine, he bore the features of a man who had tasted fortune before wisdom, and who carried pride where humility should have taken root. His words often shone like morning dew, but his deeds curdled into bitterness before the sun set.
+
+Otieno had a younger brother, Ochieng, whose spirit was gentler, his heart more earnest, and his hopes rooted in the soil of fraternity. To Ochieng, Otieno was not merely a sibling but a guiding star, a man whose footsteps he longed to follow, believing that blood ties demanded loyalty stronger than the iron shackles of fate. Yet Otieno’s promises were empty gourds: he often spoke of help—help with work, with bride price, with dreams of education—but never once did he lift his hand when Ochieng faltered.
+
+Beneath his carefully painted smile, Otieno was a hypocrite of the highest breed. He desired not his brother’s flourishing, but his failure; for to see Ochieng rise was, in Otieno’s warped vision, to witness his own eclipse. His arrogance was so deeply woven into his sinews that he felt the very earth owed him reverence. “I am destined for greatness above all,” he would mutter, even as the village elders whispered of his haughtiness.
+
+When fortune’s hand lifted him into the grand halls of the United Nations, a job that glittered with international esteem, Otieno’s heart did not expand with gratitude. Instead, it shrank further into self-absorption. He adorned himself with the cloak of importance, bragging of figures and allowances, narrating the minutiae of his salary to men whose pockets barely held the dust of harvest.
+
+His wife and child, though they bore his name, lived like phantoms in the daylight. In gatherings he wore the mask of a bachelor, pursuing women with the lust of a man unbound. The family that should have been his crown became, instead, a hidden thorn he refused to acknowledge.
+
+Most insidious of all was his tongue. It was a sharpened spear, not for defense, but for ruin. Otieno thrived on rumor-mongering, weaving webs of defamation around friends and kinsmen alike. He spoke little of himself except when he boasted, but of others he spoke with venom, delighting in their humiliation. His arrogance was a fortress, yet within that fortress dwelt a cowardly soul afraid of being outshone.
+
+And so, in Acholi land, where the values of kinship, humility, and truthfulness were held as pillars of human worth, Otieno became a paradox: a man esteemed by strangers for his title, yet loathed by those who knew him most.
+
+But fate—unyielding and just—does not allow crooked horns to pierce the heavens forever. For in the silence of Ochieng’s endurance, in the whispers of the community he defamed, and in the quiet judgment of his own ancestors, the reckoning of Otieno’s pride was already being carved into the bark of time…
+
+To Be Continued….
+
+The Crooked Horn of Otieno
+
+Chapter One: The Empty Promise
+
+The sun rose lazily over the sprawling plains of Acholi land, painting the huts of Purongo village with a warm, golden hue. Birds sang in the mango trees, children’s laughter echoed from the footpaths, and women’s voices floated from the grinding stones as they prepared millet for the day. Amid this harmony, Ochieng, the younger brother, bent over the soil, his hands darkened with earth and sweat. His life was toil, yet his heart bore no malice.
+
+Ochieng had always admired Otieno. From boyhood, he had believed his brother’s words were carved in stone. “One day,” Otieno had promised, his voice swelling with authority, “I shall lift you up. You will not need to break your back in the fields when I stand tall.” Those words had burned into Ochieng’s memory like a brand.
+
+But years passed, and promises remained empty gourds. When Ochieng asked for help to pay his bride price, Otieno sent only words, no coin. When his hut’s roof leaked in the rains, Otieno came with polished shoes, walked around the homestead, and left, having done nothing but offer advice. And when Ochieng’s child fell ill, his desperate calls went unanswered, though Otieno was said to be in Kampala, dining in lavish hotels and boasting of his “connections in the UN.”
+
+Otieno’s generosity was only for display. He arrived at funerals with envelopes fat with money, but never for kin. He gave speeches about “helping the community,” but his brother’s suffering was a cloak he never cared to lift.
+
+Yet in the evenings, Ochieng would still sit by the fire with his wife, Ayaa, and tell her, “He is my brother. One day his heart will change. Blood does not turn into water.” And Ayaa, though her eyes brimmed with quiet disappointment, would nod and say, “Let us hope the spirits of the ancestors remind him of his duty.”
+
+But in the silence of his own homestead, Otieno thought differently. To him, Ochieng’s humility was weakness, his poverty a shame that reflected on him. “I cannot let him shine brighter than me,” he often muttered, adjusting his tie before the mirror. “He must always remember who the elder is.”
+
+And so, the first crack in the horn widened—hidden beneath the surface, but destined to split.
+
+Chapter Two: The Cloak of Importance
+
+Kampala’s air was heavy with ambition. Boda-bodas weaved recklessly through traffic, skyscrapers cast their shadows over colonial buildings, and the hum of city life drowned the quiet wisdom of the villages. It was here that Otieno, now a man of twenty-nine, had secured his post at the United Nations. To outsiders, it was a badge of honor, a ticket into the ranks of influence. To Otieno, it was proof that he was above ordinary men.
+
+He walked the corridors of glass buildings with an arrogance that could be smelled like perfume. He measured his worth not by the service he rendered, but by the thickness of his wallet and the prestige of his title. His colleagues quickly learned of his appetite for boasting. At lunchtime, while others ate in quiet conversation, Otieno spoke loudly of allowances, international workshops, and the “dollars that flowed like Nile water.”
+
+Yet for all his talk, he never spoke of his wife and child. They lived in a modest rental on the city’s outskirts, neglected like shadows. In the bright lights of Kampala, Otieno was a bachelor again—chasing women in restaurants, weaving lies as easily as one breathes. When asked by new friends whether he was married, he would laugh dismissively, “Marriage? Ah, I am not ready to be caged. My life is too big for that.” His wife, Akello, bore her loneliness quietly, raising their little boy while listening to rumors of her husband’s escapades.
+
+Back in Acholi land, however, the truth could not remain hidden. The people of Purongo had ears sharper than the drums of a ceremony. They heard of his lies, his infidelity, his arrogance. Around the evening fires, the old men shook their heads.
+
+“Otieno is like a leopard that strays too far from the bush,” one elder said. “He thinks himself a lion in the city, but the spirits see him still.”
+
+The women grinding millet would murmur, “How can a man deny his own blood? A wife left like a widow, a child left without a father’s embrace?”
+
+Even Ochieng, though ever forgiving, began to feel the weight of betrayal. He heard of his brother’s boasting—how Otieno described himself as self-made, as though no family, no village, no ancestors had paved the way for his rise. It was salt upon the wounds of his poverty.
+
+Yet Otieno was deaf to whispers. His ears only welcomed praise, his eyes only saw himself. He lived clothed in the cloak of importance—fine suits, polished shoes, an ego tailored larger than his frame. He believed he was untouchable, immune to the laws of community and spirit.
+
+But in Acholi wisdom, there is a saying: “The horn that grows too proud shall one day break against the tree.”
+
+And Otieno’s crooked horn was growing heavier, curving toward its inevitable fracture.
+
+Chapter Three: The Gentle Flame of Ochieng
+
+While Otieno polished his shoes in Kampala’s towers, Ochieng bent his back beneath the Acholi sun. His fields were not rich, nor were his hands free of calluses, but his heart glowed with a warmth his brother had long lost.
+
+He lived in a thatched homestead on the edge of Purongo, with his wife Ayaa and their two small children. Their lives were modest: mornings began with the pounding of millet, afternoons with the tending of goats, evenings with stories told by the fire. There were no cars, no polished offices, no accounts in foreign banks—only the rhythm of the land and the dignity of honest labor.
+
+Unlike his brother, Ochieng did not promise more than he could give. When a neighbor’s child fell sick, he offered the little he had—sometimes a calabash of milk, sometimes firewood, sometimes simply his time to sit and comfort. And because of that, the community trusted him. His words were like cool water on parched lips, his presence a reminder that humility still lived among men.
+
+One evening, as the moon rose pale above the mango trees, the elders gathered for a council. A matter of land boundaries had set two clans against one another, and tempers flared like dry grass touched by fire. Voices clashed, men stood with spears ready, and it seemed violence would be inevitable.
+
+But Ochieng, the younger brother of the boastful Otieno, stood up. His voice was not loud, but it carried the weight of truth:
+
+“We have fought enough wars in our fathers’ time. Shall we now fight among ourselves for the soil that will one day cover us all? Land is important, but peace is greater. Let us draw the line with respect, for the ground belongs to the ancestors more than to us.”
+
+The crowd fell silent. Even the most stubborn of men nodded. The quarrel cooled, spears lowered, and the matter ended without bloodshed. That night, around the fires, the people spoke.
+
+“See Ochieng,” the women said. “He may not wear suits or eat in hotels, but his heart is straight.”
+
+“Unlike his brother,” the men muttered, “whose tongue is sharp for rumor, but soft for truth.”
+
+And so Ochieng’s quiet flame burned brighter in the eyes of the community. Where Otieno was seen as crooked and arrogant, Ochieng became the mirror of humility, the reminder that greatness is not in titles, but in character.
+
+Yet deep within him, Ochieng still longed for reconciliation. He often told Ayaa, “He is my brother. No matter how he denies me, I cannot deny him. Blood ties do not rot.” But the ancestors, who watched from the world beyond, knew the two brothers walked roads destined to cross in a storm.
+
+For while one brother walked clothed in pride, the other carried the silent blessing of the spirits.
+
+And in Acholi land, blessings and curses do not sleep forever.
+
+Chapter Four: The Reckoning of Shadows
+
+The day of reckoning does not arrive with drums; it creeps like a snake through grass, silent until it strikes. For Otieno, the beginning of his fall was almost invisible—small cracks that grew into chasms.
+
+At the United Nations office, his colleagues began to whisper. His boasting, once tolerated with polite smiles, became an irritation. He spoke more of his money than of his work, more of his conquests than of his family. When tasks were given, he delayed them, spending time chasing pleasures in Kampala’s nightclubs. Slowly, the supervisors began to notice: Otieno was more noise than substance.
+
+Meanwhile, his lies grew heavy. A woman he had courted in secret exposed him in public, revealing he had a wife and child he had long denied. The scandal spread like wildfire, reaching not only his workplace but also the ears of the community back home. His carefully woven image began to unravel.
+
+In Purongo, word traveled faster than the wind. The villagers shook their heads:
+“Did we not say? A man cannot live with two faces forever.”
+
+Even the elders, who once tolerated his arrogance, began to speak his name with disdain. “A crooked horn may shine in the sun,” they muttered, “but when the rain falls, its weakness is revealed.”
+
+At home, Akello, his wife, grew weary. Her eyes, once soft with patience, now hardened with pain. She had carried his neglect like a sack of stones, but when the scandal reached her doorstep, she could no longer shield her child from the truth. She confronted him:
+
+“Otieno, what man denies his own blood? What father hides his son as though he were a curse? The community sees you, the ancestors see you—do you not fear shame?”
+
+But Otieno, blinded by pride, shouted back. His voice thundered, but his words were hollow. He called her ungrateful, accused her of weakness, and stormed out to seek solace in drink and women. Yet in his solitude, doubt began to gnaw at him. He had chased shadows of power, but they slipped through his fingers like water.
+
+It was then that he returned to the village for a funeral—a distant uncle had passed. As he arrived in his gleaming car, dressed in a suit too fine for the dust of Acholi land, he expected admiration. But the stares that met him were not of awe; they were cold, laced with quiet judgment.
+
+By the graveside, his brother Ochieng stood, head bowed, hands clasped, his presence steady like a rooted tree. The people gathered closer to Ochieng than to Otieno. Whispers rose:
+“See how the humble brother is loved, while the proud one stands alone.”
+
+For the first time, Otieno felt the weight of isolation. His cloak of importance no longer warmed him; it burned like a shroud of shame.
+
+And as the funeral drums beat low into the evening, Otieno realized the truth whispered by the ancestors: the crooked horn was bending toward its breaking point.
+
+Chapter Five: The Breaking of the Horn
+
+The collapse of a man rarely comes like a lightning strike—it comes in waves, each heavier than the last. For Otieno, the waves had gathered, and the storm was now upon him.
+
+In Kampala, his job slipped first. His supervisors, tired of his tardiness, arrogance, and scandals, called him into a glass-walled office. Their words were sharp, measured, and final:
+
+“Otieno, the United Nations does not wear arrogance as its badge. We value service, not self-glorification. You have failed to uphold the standards of this institution. Consider this your last day.”
+
+The dismissal fell like a spear to his chest. He walked out with his briefcase, his reflection in the polished windows mocking him—once a man of status, now an empty shell.
+
+He turned to his friends, those he had once entertained with boasts and drinks. But they melted away like dew under the sun. One by one, they closed their doors, unwilling to be associated with a man whose prestige had vanished. The women he had pursued laughed in scorn; some even mocked him openly:
+“Is this the great Otieno, who claimed to have dollars flowing like Nile water? Where are his riches now?”
+
+At home, Akello had already made her choice. She gathered her belongings, her son clinging to her hand, and returned to her mother’s village. Her parting words were soft, but they cut deeper than any blade:
+
+“You were given a family and chose strangers. You were given love and chose lies. May the spirits teach you what we could not.”
+
+Alone, Otieno returned to Purongo, the very soil he once despised. He arrived not in a shining car, but on foot, dusty and hollow-eyed. The people, seeing him, did not jeer—Acholi wisdom forbids laughing at the fallen—but their silence was heavier than ridicule. Mothers pulled their children closer, elders avoided his greeting, and whispers floated like shadows: “The crooked horn has broken.”
+
+Only Ochieng approached him, carrying the calmness of one whose life had never depended on pride. He placed a hand on his brother’s shoulder and said quietly:
+
+“Otieno, greatness is not in the height of a man’s shadow, but in the steadiness of his steps. You ran too far from the truth, but the land still welcomes you back. Will you learn now?”
+
+For the first time, Otieno’s arrogance cracked. His eyes welled with tears—not of self-pity, but of realization. He looked at his brother, the man he had despised, envied, and betrayed, and saw in him the strength he had always lacked.
+
+The drums of the ancestors seemed to echo in his ears, whispering: A horn, once broken, cannot be straightened. But its fragments may still be carved into something useful.
+
+And so Otieno’s story did not end in triumph, but in reckoning. His crooked horn had broken, but perhaps—if humility took root—he could still learn the wisdom of the soil he had long ignored.`
+},
+{
+  id: "the-unchosen-crown",
+  title: "The Unchosen Crown",
+  subtitle: "",
+  category: "Story",
+  featured: false,
+  text: `In the quiet, sun-kissed village of Ns'eganye, where the wind hummed lullabies through banana leaves and time walked barefoot, there lived a woman whose name passed through lips like a secret spell — Ayana.
+
+She wasn’t just beautiful — she was the kind of beautiful that paused conversations and made even the clouds shift for a better view. But it wasn't her face alone that made her unforgettable. No — it was her elegance, the calm, commanding grace with which she moved, like a whispered poem wrapped in silk.
+
+Her style was a sermon. Every thread she wore told a story — of heritage, of confidence, of quiet rebellion. Be it a simple kitenge or a tailored dress, Ayana wore it like royalty who didn’t need a throne to rule. She walked with the dignity of rain, soft but impossible to ignore, and when she passed by, conversations tripped and glances lingered like they had nowhere else to be.
+
+To the people of Ns'eganye, she was an icon in motion — a walking gallery of style and spirit. Mothers nudged daughters. Sons straightened collars. Even the sun seemed to shine differently when Ayana stepped out.
+
+But for Ayana, all this beauty came with a price. The admiration, the compliments — they started to feel like chains of gold. She couldn't breathe without someone reminding her how breathtaking she looked. "You're so beautiful," they'd say — as if she didn’t already carry the weight of their gaze on her shoulders like a borrowed crown.
+
+She tried to dull her shine, wearing plain clothes, tying her hair in haste — but even then, she looked like art that refused to be ordinary. The more she tried to hide, the brighter her presence grew. Smartness clung to her like perfume — unbottled, unstoppable.
+
+Ayana was a queen in the making, not because she wanted the crown — but because it followed her.
+
+She didn’t chase attention. She walked past it.
+
+And yet, all she longed for was to just be — not admired, not praised, not perfect — just Ayana.
+
+But in a world that sees grace as spectacle and beauty as invitation, her existence became a story everyone wanted to read… even when she wished to be left on the shelf.`
+},
+{
+  id: "halima-my-undeclared-sermon",
+  title: "Halima, My Undeclared Sermon",
+  subtitle: "",
+  category: "Story",
+  featured: false,
+  text: `Gayaza was a quiet suburb, the kind of place where boda engines hummed like slow church bells and gossip travelled faster than the boda boys themselves. It was an ordinary Sunday when I first understood that God had a sense of humor because on that particular morning, He sent Halima walking down our street, and the sun, ever competitive, seemed to show up an hour early just to keep pace with her smile.
+
+I was, at the time, a boy in training for the priesthood, full of scripture, short on worldly experience, and entirely unprepared for what beauty like hers could do to a young man's theology. Halima's face was the kind village painters would have abandoned their brushes over, convinced that no pigment, no canvas, no talent could ever capture what God had clearly overachieved on. Her name alone sounded like a hymn I hadn't yet learned the words to, and every time she passed, I found myself humming it under my breath like a boy rehearsing a sermon he was too shy to deliver.
+
+The day it happened, the day she hugged me, is a day I still replay with the reverence of a man recalling his own conversion. A warmth spread from my head to my toes, sudden and electric, as though someone had switched on a generator in a village UMEME had long forgotten existed. My knees, once loyal disciples of gravity, filed an immediate and unanimous resignation. My tongue, trained for sermons and scripture, betrayed me completely; not a single syllable survived her presence. I stood there, silent, undone, a priest-in-training failing his very first practical exam: loving thy neighbor a little too enthusiastically.
+
+Here lies the irony, sharp and bitter as altar wine: I was, at that stage of my life, torn between two callings. One demanded I whisper "Amen." The other tempted me to whisper her name. And in a twist only life could script so cruelly, I managed to say nothing to either. Not a prayer. Not a confession. Just silence, dressed up as composure.
+
+Halima walked on with her days, blissfully unaware that she had nearly recruited a future priest into quiet apostasy,  without lifting a finger, without knowing that my heart had, for a season, held a full congregation in her honor, one that never got the chance to sing. She never knew she'd been my most devoted, most secret sermon.
+
+Perhaps some loves are exactly that; sermons we prepare fervently in our hearts but never gather the courage to preach. Perhaps she was the collection plate I was simply too timid to pass around, for fear of what people or Heaven itself might say.
+
+Either way, if I am to be honest before both God and memory: Father, forgive me, for I have simped. And even now, I regret absolutely nothing.`
+}
+];
+
+/* =========================================================
+   SITE CODE — no need to edit below
+   ========================================================= */
+const $ = id => document.getElementById(id);
+let cat = "All";
+
+// Theme (remembered when the browser allows it)
+const root = document.documentElement;
+function setTheme(t){
+  root.dataset.theme = t;
+  $("theme").textContent = t === "dark" ? "Light" : "Dark";
+  try { localStorage.setItem("theme", t); } catch(e){}
+}
+let saved = null;
+try { saved = localStorage.getItem("theme"); } catch(e){}
+setTheme(saved || "dark");
+$("theme").onclick = () => setTheme(root.dataset.theme === "dark" ? "light" : "dark");
+
+const firstLine = p => p.text.split("\n").find(l => l.trim()).trim();
+
+$("bio").textContent = SITE.bio;
+$("yr").textContent = new Date().getFullYear();
+document.title = SITE.title + " — Poems & Compositions by " + SITE.name;
+const h1 = document.querySelector(".hero h1");
+h1.setAttribute("aria-label", SITE.name);
+h1.textContent = "";
+[...SITE.name].forEach((c, i) => {
+  const s = document.createElement("span");
+  s.className = "ch"; s.textContent = c; s.setAttribute("aria-hidden", "true");
+  s.style.animationDelay = (0.15 + i * 0.18) + "s";
+  h1.append(s);
+});
+document.querySelector(".logo").textContent = SITE.title;
+document.querySelector("footer").innerHTML = "";
+document.querySelector("footer").textContent = SITE.title + " · © " + new Date().getFullYear() + " " + SITE.name;
+
+SITE.contacts.forEach((c, i) => {
+  const a = document.createElement("a");
+  a.href = c.href; a.textContent = c.label; a.rel = "noopener";
+  if (i) $("contacts").append("   ");
+  $("contacts").append(a);
+});
+
+// Featured poem
+const feat = POEMS.find(p => p.featured) || POEMS[0];
+const f = $("featured");
+f.innerHTML = "<h3></h3><p></p><span class='readmore'>Read the full piece</span>";
+f.querySelector("h3").textContent = feat.title;
+f.querySelector("p").textContent = feat.text.split("\n").filter(l => l.trim()).slice(0, 3).join("\n");
+const openFeat = () => location.hash = "#/poem/" + feat.id;
+f.onclick = openFeat;
+f.onkeydown = e => { if (e.key === "Enter") openFeat(); };
+
+// Filters
+const cats = ["All", ...new Set(POEMS.map(p => p.category))];
+cats.forEach(c => {
+  const b = document.createElement("button");
+  b.className = "chip"; b.textContent = c;
+  b.setAttribute("aria-pressed", c === cat);
+  b.onclick = () => { cat = c; [...$("filters").children].forEach(x => x.setAttribute("aria-pressed", x === b)); render(); };
+  $("filters").append(b);
+});
+$("q").oninput = render;
+
+function render(){
+  const q = $("q").value.toLowerCase().trim();
+  const list = POEMS.filter(p =>
+    (cat === "All" || p.category === cat) &&
+    (!q || (p.title + " " + p.subtitle + " " + p.text).toLowerCase().includes(q)));
+  $("grid").innerHTML = "";
+  if (!list.length){ $("grid").innerHTML = "<p class='empty'>Nothing matches. Try a different word or category.</p>"; return; }
+  list.forEach(p => {
+    const b = document.createElement("button");
+    b.className = "card";
+    b.innerHTML = "<h3></h3><span class='cat'></span><p></p>";
+    b.querySelector("h3").textContent = p.title;
+    b.querySelector(".cat").textContent = p.category;
+    b.querySelector("p").textContent = firstLine(p);
+    b.style.animationDelay = ($("grid").children.length * 0.07) + "s";
+    b.onclick = () => location.hash = "#/poem/" + p.id;
+    $("grid").append(b);
+  });
+}
+
+// Drifting embers behind the name
+(function(){
+  if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  const cv = $("embers"), cx = cv.getContext("2d");
+  let W, H, ps = [];
+  function size(){ W = cv.width = cv.offsetWidth; H = cv.height = cv.offsetHeight; }
+  const mk = init => ({ x: Math.random() * W, y: init ? Math.random() * H : H + 10,
+    r: Math.random() * 2 + .6, v: Math.random() * .5 + .25, d: Math.random() * 6, a: Math.random() * .6 + .3 });
+  size(); window.addEventListener("resize", size);
+  for (let i = 0; i < 38; i++) ps.push(mk(true));
+  let t = 0;
+  (function loop(){
+    requestAnimationFrame(loop);
+    if ($("home-view").classList.contains("hidden")) return;
+    t += .01; cx.clearRect(0, 0, W, H);
+    const col = getComputedStyle(root).getPropertyValue("--accent").trim();
+    cx.fillStyle = col; cx.shadowColor = col; cx.shadowBlur = 8;
+    ps.forEach((p, i) => {
+      p.y -= p.v; p.x += Math.sin(t * 2 + p.d) * .4;
+      if (p.y < -10) ps[i] = mk(false);
+      cx.globalAlpha = p.a * Math.max(0, Math.min(1, p.y / H + .1));
+      cx.beginPath(); cx.arc(p.x, p.y, p.r, 0, 7); cx.fill();
+    });
+  })();
+})();
+
+// Simple hash router
+function route(){
+  const h = location.hash.replace("#/", "");
+  const m = h.match(/^poem\/(.+)$/);
+  const p = m && POEMS.find(x => x.id === m[1]);
+  $("home-view").classList.toggle("hidden", !!p);
+  $("read-view").classList.toggle("hidden", !p);
+  if (p){
+    const r = $("reader");
+    r.innerHTML = "<span class='cat' style='color:var(--accent);font-style:italic'></span><h1></h1><p class='sub'></p><div class='text'></div><p class='orn' aria-hidden='true'>&#10022; &#10022; &#10022;</p><button class='back'>Back to all poems</button>";
+    r.querySelector(".cat").textContent = p.category;
+    r.querySelector("h1").textContent = p.title;
+    r.querySelector(".sub").textContent = p.subtitle;
+    p.text.split(/\n\s*\n/).forEach(s => {
+      const el = document.createElement("p"); el.textContent = s; r.querySelector(".text").append(el);
+    });
+    r.querySelector(".back").onclick = () => location.hash = "#/poems";
+    window.scrollTo(0, 0);
+    return;
+  }
+  if (h === "poems" || h === "contact") setTimeout(() => $(h).scrollIntoView(), 0);
+  else window.scrollTo(0, 0);
+}
+window.addEventListener("hashchange", route);
+render(); route();
+</script>
+</body>
+</html>
