@@ -141,6 +141,42 @@ section[id]{scroll-margin-top:var(--head)}
 .pn a:last-child{text-align:right}
 .pn strong{display:block;font-family:var(--display);font-weight:500;font-size:1.15rem;letter-spacing:.03em;margin-top:6px;transition:color .2s}
 .pn a:hover strong{color:var(--accent)}
+/* ---------- Reactions, share & comments ---------- */
+.fb{margin:0 0 56px}
+.fb-bar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:center}
+.fb-btn{display:inline-flex;align-items:center;gap:8px;background:none;border:1px solid var(--line);border-radius:999px;padding:10px 18px;font-family:var(--ui);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--mute);transition:border-color .2s,color .2s,background .2s}
+.fb-btn svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.fb-btn.down svg{transform:rotate(180deg)}
+.fb-btn:hover{border-color:var(--accent);color:var(--ink)}
+.fb-btn[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.fb-btn[aria-pressed="true"] svg{fill:currentColor}
+.fb-note{text-align:center;min-height:1.5em;margin:14px 0 0;font-style:italic;color:var(--mute);font-size:1.12rem}
+.fb-share{position:relative}
+.fb-menu{position:absolute;top:calc(100% + 8px);right:0;z-index:20;min-width:200px;margin:0;padding:6px;list-style:none;background:var(--bg2);border:1px solid var(--line);border-radius:10px;box-shadow:0 12px 32px rgba(0,0,0,.35)}
+.fb-menu button,.fb-menu a{display:block;width:100%;text-align:left;background:none;border:0;border-radius:6px;padding:10px 12px;font-family:var(--ui);font-size:.74rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink);text-decoration:none}
+.fb-menu button:hover,.fb-menu a:hover,.fb-menu button:focus-visible,.fb-menu a:focus-visible{background:color-mix(in srgb,var(--accent) 14%,transparent);color:var(--accent)}
+.cm{margin-top:44px;border-top:1px solid var(--line);padding-top:30px}
+.cm h2{font-family:var(--display);font-size:1.2rem;letter-spacing:.1em;text-transform:uppercase;margin:0 0 6px}
+.cm-lead{margin:0 0 22px;color:var(--mute);font-style:italic;font-size:1.12rem}
+.cm-form{display:grid;gap:14px;margin-bottom:30px}
+.cm-form input[type=text],.cm-form textarea{width:100%;background:none;border:0;border-bottom:1px solid var(--line);color:var(--ink);font-family:var(--serif);font-size:1.25rem;padding:10px 0;outline:none;border-radius:0;transition:border-color .2s}
+.cm-form textarea{min-height:110px;resize:vertical;line-height:1.5}
+.cm-form input:focus,.cm-form textarea:focus{border-color:var(--accent)}
+.cm-form ::placeholder{color:var(--mute);font-style:italic}
+.cm-row{display:flex;flex-wrap:wrap;gap:12px 22px;align-items:center;justify-content:space-between}
+.cm-check{display:flex;align-items:center;gap:8px;font-family:var(--ui);font-size:.74rem;color:var(--mute);letter-spacing:.04em}
+.cm-check input{accent-color:var(--accent);width:16px;height:16px}
+.cm-submit{background:var(--accent);border:1px solid var(--accent);color:var(--on-accent);border-radius:999px;padding:10px 24px;font-family:var(--ui);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase}
+.cm-submit:hover{filter:brightness(1.1)}
+.cm-list{list-style:none;margin:0;padding:0}
+.cm-item{border-top:1px solid var(--line);padding:18px 0}
+.cm-top{display:flex;justify-content:space-between;gap:12px;align-items:baseline}
+.cm-who{font-family:var(--ui);font-size:.78rem;font-weight:600;letter-spacing:.06em}
+.cm-when{font-family:var(--ui);font-size:.7rem;color:var(--mute);margin-left:10px;letter-spacing:.06em}
+.cm-del{background:none;border:0;font-family:var(--ui);font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--mute);padding:2px 0}
+.cm-del:hover{color:var(--accent)}
+.cm-text{margin:8px 0 0;font-size:1.2rem;line-height:1.6;white-space:pre-line;overflow-wrap:anywhere}
+.cm-empty{color:var(--mute);font-style:italic;border-top:1px solid var(--line);padding-top:18px;margin:0}
 /* ---------- Responsive ---------- */
 @media(max-width:860px){.hero-foot{grid-template-columns:1fr}.cta{justify-content:flex-start}}
 @media(max-width:720px){
@@ -155,7 +191,7 @@ section[id]{scroll-margin-top:var(--head)}
 }
 @media(max-width:380px){body{font-size:1.12rem}.chip{padding:5px 12px}.brand{font-size:.8rem;letter-spacing:.14em}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
-@media print{.site-head,.progress,body::before{display:none}}
+@media print{.site-head,.progress,body::before,.fb{display:none}}
 </style>
 </head>
 <body>
@@ -245,6 +281,7 @@ const SITE = {
   email: "innocentgrace24@gmail.com",
   phone: "0758874021",         // shown on the page
   phoneHref: "+256758874021",  // used for tap-to-call (Uganda country code added)
+  url: "",                     // your live website address, e.g. "https://yourname.com/" (used in share links; leave "" to use the current address)
   social: []                   // e.g. [{ label: "Instagram", href: "https://..." }] — empty = nothing shown
 };
 
@@ -967,155 +1004,6 @@ She lives in denial, wears strength like steel,
 But silence knows what she refuses to feel.`
 },
 {
-  id: "the-crooked-horn-of-otieno",
-  title: "The Crooked Horn of Otieno",
-  subtitle: "",
-  category: "Story",
-  featured: false,
-  text: `In the northern cradle of Acholi land, where the wind carried echoes of ancestral drums across the hills of Lamwo and the millet fields bowed under the weight of ripening grain, there lived a man named Otieno. At twenty-nine, he bore the features of a man who had tasted fortune before wisdom, and who carried pride where humility should have taken root. His words often shone like morning dew, but his deeds curdled into bitterness before the sun set.
-
-Otieno had a younger brother, Ochieng, whose spirit was gentler, his heart more earnest, and his hopes rooted in the soil of fraternity. To Ochieng, Otieno was not merely a sibling but a guiding star, a man whose footsteps he longed to follow, believing that blood ties demanded loyalty stronger than the iron shackles of fate. Yet Otieno’s promises were empty gourds: he often spoke of help—help with work, with bride price, with dreams of education—but never once did he lift his hand when Ochieng faltered.
-
-Beneath his carefully painted smile, Otieno was a hypocrite of the highest breed. He desired not his brother’s flourishing, but his failure; for to see Ochieng rise was, in Otieno’s warped vision, to witness his own eclipse. His arrogance was so deeply woven into his sinews that he felt the very earth owed him reverence. “I am destined for greatness above all,” he would mutter, even as the village elders whispered of his haughtiness.
-
-When fortune’s hand lifted him into the grand halls of the United Nations, a job that glittered with international esteem, Otieno’s heart did not expand with gratitude. Instead, it shrank further into self-absorption. He adorned himself with the cloak of importance, bragging of figures and allowances, narrating the minutiae of his salary to men whose pockets barely held the dust of harvest.
-
-His wife and child, though they bore his name, lived like phantoms in the daylight. In gatherings he wore the mask of a bachelor, pursuing women with the lust of a man unbound. The family that should have been his crown became, instead, a hidden thorn he refused to acknowledge.
-
-Most insidious of all was his tongue. It was a sharpened spear, not for defense, but for ruin. Otieno thrived on rumor-mongering, weaving webs of defamation around friends and kinsmen alike. He spoke little of himself except when he boasted, but of others he spoke with venom, delighting in their humiliation. His arrogance was a fortress, yet within that fortress dwelt a cowardly soul afraid of being outshone.
-
-And so, in Acholi land, where the values of kinship, humility, and truthfulness were held as pillars of human worth, Otieno became a paradox: a man esteemed by strangers for his title, yet loathed by those who knew him most.
-
-But fate—unyielding and just—does not allow crooked horns to pierce the heavens forever. For in the silence of Ochieng’s endurance, in the whispers of the community he defamed, and in the quiet judgment of his own ancestors, the reckoning of Otieno’s pride was already being carved into the bark of time…
-
-To Be Continued….
-
-The Crooked Horn of Otieno
-
-Chapter One: The Empty Promise
-
-The sun rose lazily over the sprawling plains of Acholi land, painting the huts of Purongo village with a warm, golden hue. Birds sang in the mango trees, children’s laughter echoed from the footpaths, and women’s voices floated from the grinding stones as they prepared millet for the day. Amid this harmony, Ochieng, the younger brother, bent over the soil, his hands darkened with earth and sweat. His life was toil, yet his heart bore no malice.
-
-Ochieng had always admired Otieno. From boyhood, he had believed his brother’s words were carved in stone. “One day,” Otieno had promised, his voice swelling with authority, “I shall lift you up. You will not need to break your back in the fields when I stand tall.” Those words had burned into Ochieng’s memory like a brand.
-
-But years passed, and promises remained empty gourds. When Ochieng asked for help to pay his bride price, Otieno sent only words, no coin. When his hut’s roof leaked in the rains, Otieno came with polished shoes, walked around the homestead, and left, having done nothing but offer advice. And when Ochieng’s child fell ill, his desperate calls went unanswered, though Otieno was said to be in Kampala, dining in lavish hotels and boasting of his “connections in the UN.”
-
-Otieno’s generosity was only for display. He arrived at funerals with envelopes fat with money, but never for kin. He gave speeches about “helping the community,” but his brother’s suffering was a cloak he never cared to lift.
-
-Yet in the evenings, Ochieng would still sit by the fire with his wife, Ayaa, and tell her, “He is my brother. One day his heart will change. Blood does not turn into water.” And Ayaa, though her eyes brimmed with quiet disappointment, would nod and say, “Let us hope the spirits of the ancestors remind him of his duty.”
-
-But in the silence of his own homestead, Otieno thought differently. To him, Ochieng’s humility was weakness, his poverty a shame that reflected on him. “I cannot let him shine brighter than me,” he often muttered, adjusting his tie before the mirror. “He must always remember who the elder is.”
-
-And so, the first crack in the horn widened—hidden beneath the surface, but destined to split.
-
-Chapter Two: The Cloak of Importance
-
-Kampala’s air was heavy with ambition. Boda-bodas weaved recklessly through traffic, skyscrapers cast their shadows over colonial buildings, and the hum of city life drowned the quiet wisdom of the villages. It was here that Otieno, now a man of twenty-nine, had secured his post at the United Nations. To outsiders, it was a badge of honor, a ticket into the ranks of influence. To Otieno, it was proof that he was above ordinary men.
-
-He walked the corridors of glass buildings with an arrogance that could be smelled like perfume. He measured his worth not by the service he rendered, but by the thickness of his wallet and the prestige of his title. His colleagues quickly learned of his appetite for boasting. At lunchtime, while others ate in quiet conversation, Otieno spoke loudly of allowances, international workshops, and the “dollars that flowed like Nile water.”
-
-Yet for all his talk, he never spoke of his wife and child. They lived in a modest rental on the city’s outskirts, neglected like shadows. In the bright lights of Kampala, Otieno was a bachelor again—chasing women in restaurants, weaving lies as easily as one breathes. When asked by new friends whether he was married, he would laugh dismissively, “Marriage? Ah, I am not ready to be caged. My life is too big for that.” His wife, Akello, bore her loneliness quietly, raising their little boy while listening to rumors of her husband’s escapades.
-
-Back in Acholi land, however, the truth could not remain hidden. The people of Purongo had ears sharper than the drums of a ceremony. They heard of his lies, his infidelity, his arrogance. Around the evening fires, the old men shook their heads.
-
-“Otieno is like a leopard that strays too far from the bush,” one elder said. “He thinks himself a lion in the city, but the spirits see him still.”
-
-The women grinding millet would murmur, “How can a man deny his own blood? A wife left like a widow, a child left without a father’s embrace?”
-
-Even Ochieng, though ever forgiving, began to feel the weight of betrayal. He heard of his brother’s boasting—how Otieno described himself as self-made, as though no family, no village, no ancestors had paved the way for his rise. It was salt upon the wounds of his poverty.
-
-Yet Otieno was deaf to whispers. His ears only welcomed praise, his eyes only saw himself. He lived clothed in the cloak of importance—fine suits, polished shoes, an ego tailored larger than his frame. He believed he was untouchable, immune to the laws of community and spirit.
-
-But in Acholi wisdom, there is a saying: “The horn that grows too proud shall one day break against the tree.”
-
-And Otieno’s crooked horn was growing heavier, curving toward its inevitable fracture.
-
-Chapter Three: The Gentle Flame of Ochieng
-
-While Otieno polished his shoes in Kampala’s towers, Ochieng bent his back beneath the Acholi sun. His fields were not rich, nor were his hands free of calluses, but his heart glowed with a warmth his brother had long lost.
-
-He lived in a thatched homestead on the edge of Purongo, with his wife Ayaa and their two small children. Their lives were modest: mornings began with the pounding of millet, afternoons with the tending of goats, evenings with stories told by the fire. There were no cars, no polished offices, no accounts in foreign banks—only the rhythm of the land and the dignity of honest labor.
-
-Unlike his brother, Ochieng did not promise more than he could give. When a neighbor’s child fell sick, he offered the little he had—sometimes a calabash of milk, sometimes firewood, sometimes simply his time to sit and comfort. And because of that, the community trusted him. His words were like cool water on parched lips, his presence a reminder that humility still lived among men.
-
-One evening, as the moon rose pale above the mango trees, the elders gathered for a council. A matter of land boundaries had set two clans against one another, and tempers flared like dry grass touched by fire. Voices clashed, men stood with spears ready, and it seemed violence would be inevitable.
-
-But Ochieng, the younger brother of the boastful Otieno, stood up. His voice was not loud, but it carried the weight of truth:
-
-“We have fought enough wars in our fathers’ time. Shall we now fight among ourselves for the soil that will one day cover us all? Land is important, but peace is greater. Let us draw the line with respect, for the ground belongs to the ancestors more than to us.”
-
-The crowd fell silent. Even the most stubborn of men nodded. The quarrel cooled, spears lowered, and the matter ended without bloodshed. That night, around the fires, the people spoke.
-
-“See Ochieng,” the women said. “He may not wear suits or eat in hotels, but his heart is straight.”
-
-“Unlike his brother,” the men muttered, “whose tongue is sharp for rumor, but soft for truth.”
-
-And so Ochieng’s quiet flame burned brighter in the eyes of the community. Where Otieno was seen as crooked and arrogant, Ochieng became the mirror of humility, the reminder that greatness is not in titles, but in character.
-
-Yet deep within him, Ochieng still longed for reconciliation. He often told Ayaa, “He is my brother. No matter how he denies me, I cannot deny him. Blood ties do not rot.” But the ancestors, who watched from the world beyond, knew the two brothers walked roads destined to cross in a storm.
-
-For while one brother walked clothed in pride, the other carried the silent blessing of the spirits.
-
-And in Acholi land, blessings and curses do not sleep forever.
-
-Chapter Four: The Reckoning of Shadows
-
-The day of reckoning does not arrive with drums; it creeps like a snake through grass, silent until it strikes. For Otieno, the beginning of his fall was almost invisible—small cracks that grew into chasms.
-
-At the United Nations office, his colleagues began to whisper. His boasting, once tolerated with polite smiles, became an irritation. He spoke more of his money than of his work, more of his conquests than of his family. When tasks were given, he delayed them, spending time chasing pleasures in Kampala’s nightclubs. Slowly, the supervisors began to notice: Otieno was more noise than substance.
-
-Meanwhile, his lies grew heavy. A woman he had courted in secret exposed him in public, revealing he had a wife and child he had long denied. The scandal spread like wildfire, reaching not only his workplace but also the ears of the community back home. His carefully woven image began to unravel.
-
-In Purongo, word traveled faster than the wind. The villagers shook their heads:
-“Did we not say? A man cannot live with two faces forever.”
-
-Even the elders, who once tolerated his arrogance, began to speak his name with disdain. “A crooked horn may shine in the sun,” they muttered, “but when the rain falls, its weakness is revealed.”
-
-At home, Akello, his wife, grew weary. Her eyes, once soft with patience, now hardened with pain. She had carried his neglect like a sack of stones, but when the scandal reached her doorstep, she could no longer shield her child from the truth. She confronted him:
-
-“Otieno, what man denies his own blood? What father hides his son as though he were a curse? The community sees you, the ancestors see you—do you not fear shame?”
-
-But Otieno, blinded by pride, shouted back. His voice thundered, but his words were hollow. He called her ungrateful, accused her of weakness, and stormed out to seek solace in drink and women. Yet in his solitude, doubt began to gnaw at him. He had chased shadows of power, but they slipped through his fingers like water.
-
-It was then that he returned to the village for a funeral—a distant uncle had passed. As he arrived in his gleaming car, dressed in a suit too fine for the dust of Acholi land, he expected admiration. But the stares that met him were not of awe; they were cold, laced with quiet judgment.
-
-By the graveside, his brother Ochieng stood, head bowed, hands clasped, his presence steady like a rooted tree. The people gathered closer to Ochieng than to Otieno. Whispers rose:
-“See how the humble brother is loved, while the proud one stands alone.”
-
-For the first time, Otieno felt the weight of isolation. His cloak of importance no longer warmed him; it burned like a shroud of shame.
-
-And as the funeral drums beat low into the evening, Otieno realized the truth whispered by the ancestors: the crooked horn was bending toward its breaking point.
-
-Chapter Five: The Breaking of the Horn
-
-The collapse of a man rarely comes like a lightning strike—it comes in waves, each heavier than the last. For Otieno, the waves had gathered, and the storm was now upon him.
-
-In Kampala, his job slipped first. His supervisors, tired of his tardiness, arrogance, and scandals, called him into a glass-walled office. Their words were sharp, measured, and final:
-
-“Otieno, the United Nations does not wear arrogance as its badge. We value service, not self-glorification. You have failed to uphold the standards of this institution. Consider this your last day.”
-
-The dismissal fell like a spear to his chest. He walked out with his briefcase, his reflection in the polished windows mocking him—once a man of status, now an empty shell.
-
-He turned to his friends, those he had once entertained with boasts and drinks. But they melted away like dew under the sun. One by one, they closed their doors, unwilling to be associated with a man whose prestige had vanished. The women he had pursued laughed in scorn; some even mocked him openly:
-“Is this the great Otieno, who claimed to have dollars flowing like Nile water? Where are his riches now?”
-
-At home, Akello had already made her choice. She gathered her belongings, her son clinging to her hand, and returned to her mother’s village. Her parting words were soft, but they cut deeper than any blade:
-
-“You were given a family and chose strangers. You were given love and chose lies. May the spirits teach you what we could not.”
-
-Alone, Otieno returned to Purongo, the very soil he once despised. He arrived not in a shining car, but on foot, dusty and hollow-eyed. The people, seeing him, did not jeer—Acholi wisdom forbids laughing at the fallen—but their silence was heavier than ridicule. Mothers pulled their children closer, elders avoided his greeting, and whispers floated like shadows: “The crooked horn has broken.”
-
-Only Ochieng approached him, carrying the calmness of one whose life had never depended on pride. He placed a hand on his brother’s shoulder and said quietly:
-
-“Otieno, greatness is not in the height of a man’s shadow, but in the steadiness of his steps. You ran too far from the truth, but the land still welcomes you back. Will you learn now?”
-
-For the first time, Otieno’s arrogance cracked. His eyes welled with tears—not of self-pity, but of realization. He looked at his brother, the man he had despised, envied, and betrayed, and saw in him the strength he had always lacked.
-
-The drums of the ancestors seemed to echo in his ears, whispering: A horn, once broken, cannot be straightened. But its fragments may still be carved into something useful.
-
-And so Otieno’s story did not end in triumph, but in reckoning. His crooked horn had broken, but perhaps—if humility took root—he could still learn the wisdom of the soil he had long ignored.`
-},
-{
   id: "the-unchosen-crown",
   title: "The Unchosen Crown",
   subtitle: "",
@@ -1490,6 +1378,109 @@ But the way I lived — that's what I leave with.`
   clear.onclick = () => { clearSearch(); q.focus(); };
   $("#reset").onclick = () => { state.cat = "All"; clearSearch(); q.focus(); };
 
+  /* ----- Reactions, share & comments -----
+     Saved in the visitor's own browser (localStorage). For counts and comments
+     that everyone can see, this needs a small online database (see notes). */
+  const FB_KEY = "igs-feedback-v1";
+  const fbLoad = () => { try { return JSON.parse(localStorage.getItem(FB_KEY)) || {}; } catch (e) { return {}; } };
+  const fbSave = d => { try { localStorage.setItem(FB_KEY, JSON.stringify(d)); return true; } catch (e) { return false; } };
+  const pieceUrl = p => (SITE.url || location.href.split("#")[0]) + "#/poem/" + p.id;
+  const svg = inner => { const w = el("span"); w.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true">' + inner + "</svg>"; return w.firstChild; };
+  const THUMB = '<path d="M7 11v9H4a1 1 0 0 1-1-1v-7a1 1 0 0 1 1-1h3zM7 11l4-8a2.2 2.2 0 0 1 2.2 2.4L12.8 9H19a2 2 0 0 1 2 2.3l-1.1 7A2 2 0 0 1 17.900 20H7"/>';
+  const SHARE = '<circle cx="18" cy="5" r="2.5"/><circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="19" r="2.5"/><path d="M8.200 10.800l7.600-4.600M8.200 13.200l7.600 4.600"/>';
+
+  function feedbackEl(p) {
+    const data = fbLoad(), rec = data[p.id] || (data[p.id] = { vote: null, comments: [] });
+    const sec = el("section", "fb"); sec.setAttribute("aria-label", "Reactions, sharing and comments");
+    const bar = el("div", "fb-bar"), note = el("p", "fb-note"); note.setAttribute("aria-live", "polite");
+    const say = t => { note.textContent = t; };
+    const persist = () => { if (!fbSave(data)) say("Couldn’t save in this browser (private mode?)."); };
+
+    const btn = (cls, label, icon) => { const b = el("button", "fb-btn " + cls); b.type = "button"; b.append(svg(icon), el("span", "", label)); return b; };
+    const like = btn("up", "Like", THUMB), dis = btn("down", "Dislike", THUMB);
+    const paint = () => {
+      like.setAttribute("aria-pressed", rec.vote === "like"); dis.setAttribute("aria-pressed", rec.vote === "dislike");
+    };
+    const vote = v => {
+      rec.vote = rec.vote === v ? null : v; paint(); persist();
+      say(rec.vote === "like" ? "Thank you — I’m glad this found you." : rec.vote === "dislike" ? "Thanks for being honest. Tell me what didn’t land in the comments below." : "");
+    };
+    like.onclick = () => vote("like"); dis.onclick = () => vote("dislike");
+
+    /* Share */
+    const wrap = el("div", "fb-share"), sb = btn("", "Share", SHARE), menu = el("ul", "fb-menu");
+    sb.setAttribute("aria-haspopup", "true"); sb.setAttribute("aria-expanded", "false"); menu.hidden = true;
+    const url = pieceUrl(p), msg = "“" + p.title + "” — " + SITE.title + " by " + SITE.name;
+    const setMenu = o => { menu.hidden = !o; sb.setAttribute("aria-expanded", o); };
+    const item = (label, node) => { const li = el("li"); li.append(node); menu.append(li); node.append(label); return node; };
+    const copy = el("button"); copy.type = "button";
+    copy.onclick = async () => {
+      try { await navigator.clipboard.writeText(url); say("Link copied."); }
+      catch (e) { prompt("Copy this link:", url); }
+      setMenu(false);
+    };
+    item("Copy link", copy);
+    [["WhatsApp", "https://wa.me/?text=" + encodeURIComponent(msg + "\n" + url)],
+     ["X / Twitter", "https://twitter.com/intent/tweet?text=" + encodeURIComponent(msg) + "&url=" + encodeURIComponent(url)],
+     ["Facebook", "https://www.facebook.com/sharer/sharer.php?u=" + encodeURIComponent(url)],
+     ["Email", "mailto:?subject=" + encodeURIComponent(p.title) + "&body=" + encodeURIComponent(msg + "\n" + url)]
+    ].forEach(([l, h]) => { const a = el("a"); a.href = h; a.target = "_blank"; a.rel = "noopener noreferrer"; a.onclick = () => setMenu(false); item(l, a); });
+    sb.onclick = async () => {
+      if (navigator.share) {
+        try { await navigator.share({ title: p.title, text: msg, url }); } catch (e) { /* cancelled */ }
+      } else setMenu(menu.hidden);
+    };
+    wrap.append(sb, menu);
+    sec.addEventListener("keydown", e => { if (e.key === "Escape" && !menu.hidden) { e.stopPropagation(); setMenu(false); sb.focus(); } });
+    document.addEventListener("click", function off(e) {
+      if (!sec.isConnected) return document.removeEventListener("click", off);
+      if (!wrap.contains(e.target)) setMenu(false);
+    });
+    bar.append(like, dis, wrap); paint();
+
+    /* Comments */
+    const cm = el("div", "cm");
+    const h = el("h2"); h.id = "cm-h"; cm.setAttribute("aria-labelledby", "cm-h");
+    cm.append(h, el("p", "cm-lead", "Tell me what this stirred in you, what worked, what didn’t. Honest words are welcome."));
+    const form = el("form", "cm-form"); form.noValidate = false;
+    const name = el("input"); name.type = "text"; name.maxLength = 40; name.placeholder = "Your name (optional)"; name.setAttribute("aria-label", "Your name (optional)"); name.autocomplete = "name"; name.value = data._name || "";
+    const ta = el("textarea"); ta.required = true; ta.maxLength = 1000; ta.placeholder = "Write your feedback…"; ta.setAttribute("aria-label", "Your comment");
+    const row = el("div", "cm-row"), lab = el("label", "cm-check"), cb = el("input"); cb.type = "checkbox";
+    lab.append(cb, document.createTextNode("Also email this to " + SITE.name));
+    const sub = el("button", "cm-submit", "Post comment"); sub.type = "submit";
+    row.append(SITE.email ? lab : el("span"), sub); form.append(name, ta, row);
+    const list = el("ul", "cm-list");
+    cm.append(form, list);
+
+    const fmt = t => new Date(t).toLocaleDateString(undefined, { day: "numeric", month: "short", year: "numeric" });
+    const drawComments = () => {
+      const n = rec.comments.length;
+      h.textContent = n ? "Comments (" + n + ")" : "Comments";
+      list.replaceChildren();
+      if (!n) { list.append(el("li", "cm-empty", "No comments yet. Be the first.")); return; }
+      rec.comments.slice().reverse().forEach(c => {
+        const li = el("li", "cm-item"), top = el("div", "cm-top"), who = el("div");
+        who.append(el("span", "cm-who", c.n || "Anonymous"), el("span", "cm-when", fmt(c.d)));
+        const del = el("button", "cm-del", "Delete"); del.type = "button";
+        del.onclick = () => { if (confirm("Delete this comment?")) { rec.comments = rec.comments.filter(x => x !== c && x.d !== c.d); persist(); drawComments(); } };
+        top.append(who, del); li.append(top, el("p", "cm-text", c.t)); list.append(li);
+      });
+    };
+    form.onsubmit = e => {
+      e.preventDefault();
+      const t = ta.value.trim(), n = name.value.trim(); if (!t) { ta.focus(); return; }
+      rec.comments.push({ n, t, d: Date.now() }); data._name = n; persist();
+      if (cb.checked && SITE.email) {
+        location.href = "mailto:" + SITE.email + "?subject=" + encodeURIComponent("Feedback on “" + p.title + "”") +
+          "&body=" + encodeURIComponent(t + "\n\n— " + (n || "Anonymous") + "\n" + url);
+      }
+      ta.value = ""; cb.checked = false; drawComments(); say("Comment posted.");
+    };
+    drawComments();
+    sec.append(bar, note, cm);
+    return sec;
+  }
+
   /* ----- Reader ----- */
   const reader = $("#reader"), home = $("#home"), piece = $("#piece"), bar = $("#progress");
   function showPiece(p) {
@@ -1506,7 +1497,7 @@ But the way I lived — that's what I leave with.`
     const pn = el("nav", "pn"); pn.setAttribute("aria-label", "More pieces");
     const link = (x, label, side) => { const a = el("a"); a.href = "#/poem/" + x.id; a.append(el("span", "ui", label), el("strong", "", x.title)); return a; };
     pn.append(prev ? link(prev, "← Previous") : el("span"), next ? link(next, "Next →") : el("span"));
-    piece.append(back, head, prose, el("p", "orn", "✦ ✦ ✦"), pn);
+    piece.append(back, head, prose, el("p", "orn", "✦ ✦ ✦"), feedbackEl(p), pn);
     document.title = p.title + " — " + SITE.title;
     window.scrollTo(0, 0); onScroll();
     h1.focus({ preventScroll: true });
