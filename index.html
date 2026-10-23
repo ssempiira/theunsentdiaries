@@ -258,7 +258,7 @@ section[id]{scroll-margin-top:var(--head)}
   <div id="home">
     <section class="hero" aria-labelledby="site-name">
       <div class="wrap">
-        <p class="ui kicker"> The Amethyst Mind</p>
+        <p class="ui kicker"> IGS</p>
         <h1 id="site-name">The <em>Amethyst</em> Mind</h1>
         <div class="hero-foot">
           <p class="tagline" id="tagline"></p>
@@ -296,13 +296,6 @@ section[id]{scroll-margin-top:var(--head)}
         </div>
       </div>
     </section>
-
-    <section class="block" id="contact" aria-labelledby="contact-h" style="border-bottom:0">
-      <div class="wrap">
-        <div class="sec-head"><h2 id="contact-h">Contact</h2></div>
-        <div class="contact" id="contact-list"></div>
-      </div>
-    </section>
     <footer class="foot ui"><div class="wrap" id="foot"></div></footer>
   </div>
 
@@ -318,10 +311,7 @@ section[id]{scroll-margin-top:var(--head)}
 const SITE = {
   title: "The Amethyst Mind",
   name: "The Amethyst Mind",
-  tagline: "Verba quae numquam misi",
-  email: "innocentgrace24@gmail.com",
-  phone: "0758874021",         // shown on the page
-  phoneHref: "+256758874021",  // used for tap-to-call (Uganda country code added)
+  tagline: "Verba quae numquam misi",  // used for tap-to-call (Uganda country code added)
   url: "",                     // your live website address, e.g. "https://yourname.com/" (used in share links; leave "" to use the current address)
   social: []                   // e.g. [{ label: "Instagram", href: "https://..." }] (empty = nothing shown)
 };
@@ -496,7 +486,7 @@ That’s when my body broke before my heart did. Panic. Tight chest. Shallow bre
 I left. Not because I was strong, but because I was done bleeding dignity.
 I had danced with the devil and expected loyalty.
 That’s when I learned the ugliest truth: people don’t change; they just stop pretending. Love isn’t about saving someone. It’s about choosing which flaws you can live with before they destroy you.
-I loved her. My Samie.
+I loved her. My Kauthara.
  I saw the red flags and painted them white. I lowered my standards. Bent my values. Shrunk myself, all for someone who wouldn’t have noticed if I disappeared.
 For six months after, I tested for HIV like a ritual of repentance. Every negative result felt like mercy I didn’t deserve. I even suspected she wanted to infect me. She didn’t.
  But fear doesn’t need facts. It feeds on regret.
@@ -510,7 +500,7 @@ That night didn’t just cost me peace. It taught me that desire without discipl
   subtitle: "The Girl Who Belonged to No One",
   category: "Story",
   featured: false,
-  text: `She was twenty-one, and in all those years the mirror had never once insulted her, because she had never given it the chance. Hers was not a face anyone would call handsome. Her body was a drawing of a life of insufficiency and violence that had grown up right alongside her, the only companion who never left. Her skin was a faded black, worn down like the gutters of a slum. A black veil always covered her face, partly to hide her shame and partly to hide the pimples planted there like abandoned seeds that grow anyway, the only crop in her life that ever flourished without someone's cruelty to water it. People did not stare at her for long; some looked away so fast they risked a sprained neck. They said she was ugly and rude. She was, by every account, the most talked-about person nobody wanted to talk to.
+  text: `She was sixteen, and in all those years the mirror had never once insulted her, because she had never given it the chance. Hers was not a face anyone would call handsome. Her body was a drawing of a life of insufficiency and violence that had grown up right alongside her, the only companion who never left. Her skin was a faded black, worn down like the gutters of a slum. A black veil always covered her face, partly to hide her shame and partly to hide the pimples planted there like abandoned seeds that grow anyway, the only crop in her life that ever flourished without someone's cruelty to water it. People did not stare at her for long; some looked away so fast they risked a sprained neck. They said she was ugly and rude. She was, by every account, the most talked-about person nobody wanted to talk to.
 
 Her mother never said who her father was and then, as if to keep the mystery tidy, died when Namata was four. Her aunt, her mother's sister, was a woman so hard that nails were rumoured to ask her for advice, and she was hardest on children she had not laboured to bring into the world. She gave Namata a life worse than prison, I think, for prisoners are at least fed on schedule. The poor black girl woke before the cockerel and worked until the sun gave up. Denied an education, she grew up worshipping her aunt as the all-powerful being who sustained her survival, which was ironic, since the aunt was also its greatest threat. Her punishments were what Auntie Damali called "good beatings," and they came as faithfully as church on Sunday. Her rewards were something close to normal treatment, the kind Auntie Damali's own children received without even asking.
 
@@ -976,10 +966,7 @@ So now, I reclaim it. The echo. The story. The sorrow. The joy.
 Let the world call it what it will.
 
 I call it me.
-
-“People judge me like they past perfect Like they present pretty Like they future flawless. Like in this world we don't have drug addicts, alcoholics liars, rap!sts, murderers, robbers. We all sinning Idgaf what you call it”
-
-Young MA.`
+`
 },
 {
   id: "is-this-a-letter",
@@ -1117,7 +1104,7 @@ I do not regret her.`
 {
   id: "her-mother-s-shadow",
   title: "Her Mother's Shadow",
-  subtitle: "by a Silent Daughter",
+  subtitle: "By a Silent Daughter",
   category: "Poem",
   featured: false,
   text: `She walks the road she did not chart,
@@ -1743,7 +1730,7 @@ But the way I lived, that's what I leave with.`
     home.hidden = !!p; reader.hidden = !p; markNav(p ? "" : h);
     if (p) { wasReader = true; showPiece(p); return; }
     document.title = baseTitle; bar.style.transform = "scaleX(0)";
-    const id = { "#/featured": "featured", "#/archive": "archive", "#/contact": "contact" }[h];
+    const id = { "#/featured": "featured", "#/archive": "archive" }[h];
     requestAnimationFrame(() => {
       if (id) $("#" + id).scrollIntoView({ behavior: reduce || wasReader ? "auto" : "smooth" });
       else window.scrollTo(0, 0);
