@@ -119,6 +119,13 @@ section[id]{scroll-margin-top:var(--head)}
 .meta{display:flex;flex-wrap:wrap;gap:6px 18px}
 .meta span+span::before{content:"·";margin-right:18px;color:var(--champagne)}
 .meta span:first-child{color:var(--accent)}
+/* Dates: always grey, never accent-coloured */
+.meta span.date{color:#9A929D;font-weight:400;letter-spacing:.12em}
+:root[data-theme="dark"] .meta span.date{color:#9F93A6}
+#featured .meta span.date{color:#B9AEC0}
+/* "New" badge */
+.badge{display:inline-block;font-family:var(--ui);font-size:.6rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;background:var(--accent);color:var(--on-accent);padding:3px 9px;border-radius:2px;margin-left:12px;vertical-align:middle}
+#featured .badge{background:var(--champagne);color:var(--plum)}
 /* Archive */
 .tools{display:grid;grid-template-columns:minmax(0,1fr);gap:20px;margin-bottom:12px}
 .search{position:relative;display:flex;align-items:center;background:var(--surface);border:1px solid var(--line);padding:0 18px;transition:border-color .3s}
@@ -316,19 +323,27 @@ const SITE = {
   social: []                   // e.g. [{ label: "Instagram", href: "https://..." }] (empty = nothing shown)
 };
 
+/* Shown in grey wherever a piece has no date yet.
+   Set to "" to show nothing for undated pieces. */
+const DATE_PLACEHOLDER = "Date to be added";
+
 /* =========================================================
    YOUR POEMS: ALL IN ONE LIST
-   To add a new piece, copy one block below (from { to },) and paste it
-   at the END of the list (before the closing ]).
+   NEWEST PIECE GOES AT THE END of the list (just before the closing ]).
+   The site shows the last piece as "Featured" with a "New" badge,
+   and lists the archive from newest to oldest automatically.
+
+   To add a piece, copy one block (from { to },) and paste it at the END.
    !! Every block must end with a comma "}," except the very last one.
    !! A missing comma between two blocks stops the whole site from showing any content.
    Fields:
-     id        : a short unique word, lowercase, no spaces (e.g. "rain")
+     id        : a short unique word, no spaces (e.g. "rain")
      title     : the title
      subtitle  : optional line under the title ("" if none)
-     category  : any word, e.g. "Poem", "Composition", "Love". New
-                 categories get their own filter button automatically.
-     featured  : true on ONE piece to show it on the home page
+     category  : any word, e.g. "Poem", "Composition", "Story".
+                 New categories get their own filter button automatically.
+     date      : e.g. "3 November 2026" (keep the same format everywhere;
+                 leave "" and a grey placeholder shows until you fill it in)
      text      : between the backticks ` `. Press Enter for line breaks;
                  leave an empty line between stanzas/paragraphs.
                  Don't use a backtick ( ` ) inside the text.
@@ -339,7 +354,7 @@ const POEMS = [
   title: "Dear Pops",
   subtitle: "a letter never mailed",
   category: "Poem",
-  featured: true,
+  date: "",
   text: `Dear Pops,
 or should I say,
 Contributor of Chromosomes,
@@ -414,7 +429,7 @@ Your afterthought.`
   title: "Life Is a Gamble",
   subtitle: "",
   category: "Composition",
-  featured: false,
+  date: "",
   text: `To wake each morning is to place a wager with a dealer who never shows his hand. You stir from sleep, take a breath, and call it certainty, but certainty is a luxury the living only borrow, never own outright. You have buried friends who once believed, as fiercely as you do now, that tomorrow was a debt owed to them. It wasn't. Tomorrow owes no one anything. And yet, absurdly, magnificently, you rise anyway. You plan anyway. You set alarms for a future that has never once signed a contract guaranteeing your presence in it. That is not foolishness. That is faith wearing the disguise of routine, the quiet defiance of a gambler who keeps playing not because the odds favor him, but because folding is its own kind of death.
 
 You are told that discipline is destiny: that if you study hard enough, sit still enough, memorize enough, the gates of opportunity will part for you like water before a prophet. But the world is not so obedient to merit. You can graduate top of your class and still watch the door stay shut, while someone less studious walks through it on the arm of a connection you never had. The classroom teaches you theory; the workplace teaches you truth, and the two rarely speak the same language. You arrive at your first job clutching a certificate like a talisman, only to discover it opens the gate but does not walk the path; that is done through trial, through the humbling apprenticeship of error, through the slow accumulation of scars that no lecture hall ever mentioned. Months later, you are competent not because of what you were taught, but because of what you survived.
@@ -434,7 +449,7 @@ So yes, life is a gamble, from the first involuntary breath to the last. Every p
   title: "Scars Like Constellations",
   subtitle: "A Tribute to Every Man Still Fighting in Silence",
   category: "Composition",
-  featured: false,
+  date: "",
   text: `There is a man who has fought battles nobody knows about. He has endured disappointments in silence, buried dreams he once held dear, and faced nights when his own thoughts became his fiercest opponents. Yet, every morning, he rises, straightens his shoulders, and faces the world. People see the smile and assume peace; they see the progress and overlook the price. But a man's composure is not always evidence of comfort. Sometimes, it is the discipline of someone who has learnt to carry his burdens without allowing them to dictate his destiny. Only God knows what it has taken some of us to get here.
 I have smiled with a troubled mind, laughed with a heavy heart, and encouraged others while reminding myself not to give up. There have been moments when surrender seemed reasonable, when the distance between where I stood and where I wanted to be felt impossible to cross. But something within me refused to quit. Perhaps it was faith, perhaps determination, or perhaps the stubborn belief that my story could not end in the very chapters that tested me most.
 I am learning that being a man does not mean being incapable of pain; it means refusing to let pain have the final word. There is no shame in admitting exhaustion, acknowledging disappointment, or shedding a tear. What matters is finding the courage to rise again, learn from the experience, and return wiser than before. Strength is not the absence of struggle; it is the decision to keep moving despite it.
@@ -450,7 +465,7 @@ The world may never know what it cost you to stand where you stand today. But yo
   title: "We Met on Twitter",
   subtitle: "An Anatomy of Desire, Delusion, and Consequence",
   category: "Story",
-  featured: false,
+  date: "",
   text: `When I joined Twitter in 2019, the digital streets throbbed with a single chant, #WeMetOnTwitter.
  A public confessional where strangers fell in love loudly, recklessly, and in public threads. Pixels became promises. Timelines turned into bedrooms of imagination. Love had learned a new dialect: hashtags, retweets, and late-night lies.
 Out of curiosity, or fate being drunk at the wheel, I wandered in too.
@@ -499,7 +514,7 @@ That night didn’t just cost me peace. It taught me that desire without discipl
   title: "Namata",
   subtitle: "The Girl Who Belonged to No One",
   category: "Story",
-  featured: false,
+  date: "",
   text: `She was sixteen, and in all those years the mirror had never once insulted her, because she had never given it the chance. Hers was not a face anyone would call handsome. Her body was a drawing of a life of insufficiency and violence that had grown up right alongside her, the only companion who never left. Her skin was a faded black, worn down like the gutters of a slum. A black veil always covered her face, partly to hide her shame and partly to hide the pimples planted there like abandoned seeds that grow anyway, the only crop in her life that ever flourished without someone's cruelty to water it. People did not stare at her for long; some looked away so fast they risked a sprained neck. They said she was ugly and rude. She was, by every account, the most talked-about person nobody wanted to talk to.
 
 Her mother never said who her father was and then, as if to keep the mystery tidy, died when Namata was four. Her aunt, her mother's sister, was a woman so hard that nails were rumoured to ask her for advice, and she was hardest on children she had not laboured to bring into the world. She gave Namata a life worse than prison, I think, for prisoners are at least fed on schedule. The poor black girl woke before the cockerel and worked until the sun gave up. Denied an education, she grew up worshipping her aunt as the all-powerful being who sustained her survival, which was ironic, since the aunt was also its greatest threat. Her punishments were what Auntie Damali called "good beatings," and they came as faithfully as church on Sunday. Her rewards were something close to normal treatment, the kind Auntie Damali's own children received without even asking.
@@ -540,13 +555,13 @@ By then, the Kingdom of Buganda had been restored, and a new regime had taken Ka
 
 And so, somewhere in Kampala, a woman who had been told all her life that she belonged to no one was wiping a fruit counter, unaware that half a kingdom was looking for her.
 `
-},  
+},
 {
   id: "signed-sealed",
   title: "Signed, Sealed",
   subtitle: "",
   category: "Poem",
-  featured: false,
+  date: "",
   text: `We were still "Youth" when it started,
 back when I thought "text me when you're home safe" was just being polite,
 not a whole personality shift.
@@ -603,7 +618,7 @@ Send help. Send snacks. We're staying in`
   title: "Amorem Sepelivi",
   subtitle: "Love Is Dead; I Am Not...",
   category: "Poem",
-  featured: false,
+  date: "",
   text: `The heart was made to keep me alive,
 not to teach me how to survive
 the people who swore they would stay.
@@ -703,7 +718,7 @@ with being in love`
   title: "Suzie",
   subtitle: "The Paradox of Beauty",
   category: "Poem",
-  featured: true,
+  date: "",
   text: `*I call her Sue*
 
 Tall and slender as an African giraffe,
@@ -866,7 +881,7 @@ will fall into place.
   title: "Obsession",
   subtitle: "Ambition, the tenant who refuses sleep",
   category: "Poem",
-  featured: false,
+  date: "",
   text: `It rings on like a fever,
 inexcusable as passion,
 yet sweet as a melody I cannot stop humming,
@@ -897,7 +912,7 @@ was worth every attempt.`
   title: "The Burden of Small Things",
   subtitle: "",
   category: "Composition",
-  featured: false,
+  date: "",
   text: `Life is a curious journey. Sometimes we walk through it with the confidence that we have everything figured out, only to wake up one day and realize we do not have a clue. Every choice we make, however simple it may appear, carries the potential to alter the course of our story. And when those choices go wrong, there is no escape from the truth: we must face the consequences, own them, and gather the courage to move forward.
 
 What fascinates me most is the irony of life. The matters we often treat as small, the ones we brush aside with little thought, tend to grow into mountains that weigh heavily upon us later. They become the most difficult challenges we ever encounter. Meanwhile, those issues that appear grand and threatening in the moment often shrink with time, becoming nothing more than shadows we once feared.
@@ -911,7 +926,7 @@ In the end, we learn that nothing in life is truly small. Every choice matters. 
   title: "The Laws of Nature",
   subtitle: "",
   category: "Composition",
-  featured: false,
+  date: "",
   text: `At eighteen, life opens differently for each soul.
 For a young woman, the world already seems to notice her. She carries beauty, youth, and promise; her value, in society’s eyes, shines effortlessly. She doesn’t have to earn attention; it finds her. Yet, the greatest test she faces is how to protect it. Her choices matter, not because she lacks worth, but because she’s already born with it.
 
@@ -934,7 +949,7 @@ A woman’s worth is in her wisdom; a man’s power is in his patience. When bot
   title: "The Echo of Me",
   subtitle: "",
   category: "Composition",
-  featured: false,
+  date: "",
   text: `There exists within me an echo: subtle, shadowed, and often shunned. Would you dare to meet it? Most wouldn't. Not because it is grotesque, but because it is true. It is the part of me that emerges not by invitation but by provocation: triggered, never scheduled. It does not knock. It erupts.
 
 They say a man who trembles in anger is unstable. They do not know the tremble is the body’s last negotiation before it turns volcanic. I am not ashamed of the echo; it is my hidden hymn, my midnight confession. And yet, it is not for all ears. Some secrets do not hide from fear; they hide from misunderstanding.
@@ -973,7 +988,7 @@ I call it me.
   title: "Is This a Letter?",
   subtitle: "A Monologue of Pain, Growth, and Conviction",
   category: "Composition",
-  featured: false,
+  date: "",
   text: `Is this a letter?
 Maybe not in the traditional sense: no pen, no paper, no envelope inked with a return address. But it feels like one. A letter addressed to the void, to the unseen hands of time, to anyone willing to listen without judgment. Perhaps, most of all, a letter to myself, to the man I’ve become, shaped not by ease but by affliction.
 
@@ -1008,7 +1023,7 @@ And I wouldn't have it any other way.
   title: "Halima",
   subtitle: "The Undeclared Sermon",
   category: "Story",
-  featured: false,
+  date: "",
   text: `There is a particular kind of sin they do not warn you about in seminary.
 
 Not the loud ones. The ones with names, with weight, with chapters and verses assigned to their prosecution. No. I mean the quiet sin. The one that lives behind the sternum. The one that never announces itself, never breaks a commandment outright, yet dismantles a man more thoroughly than any transgression scripture ever bothered to catalogue.
@@ -1090,7 +1105,7 @@ I do not regret her.`
   title: "Her Mother's Shadow",
   subtitle: "By a Silent Daughter",
   category: "Poem",
-  featured: false,
+  date: "",
   text: `She walks the road she did not chart,
 With someone else's dream carved in her heart.
 Her hands, so skilled, her mind, so wide,
@@ -1133,7 +1148,7 @@ But silence knows what she refuses to feel.`
   title: "The Unchosen Crown",
   subtitle: "",
   category: "Story",
-  featured: false,
+  date: "",
   text: `In the quiet, sun-kissed village of Ns'eganye, where the wind hummed lullabies through banana leaves and time walked barefoot, there lived a woman whose name passed through lips like a secret spell: Ayana.
 
 She wasn’t just beautiful; she was the kind of beautiful that paused conversations and made even the clouds shift for a better view. But it wasn't her face alone that made her unforgettable. No. It was her elegance, the calm, commanding grace with which she moved, like a whispered poem wrapped in silk.
@@ -1159,7 +1174,7 @@ But in a world that sees grace as spectacle and beauty as invitation, her existe
   title: "The Weight of Silence",
   subtitle: "",
   category: "Story",
-  featured: false,
+  date: "",
   text: `The evening in Gayaza smelled of roasting maize and boda-boda exhaust, the red murram dust settling on sandaled feet as the sun dipped behind the eucalyptus trees lining Gayaza Road. Namara walked beside her husband, Kato, her arm tucked into his, the market bags swinging between them like pendulums counting down to something neither of them could yet name.
 They passed the trading center, the same one that had watched generations grow up between its tin-roofed shops and its taxi stage, and that was when it happened. A hand, quick as a lizard darting under a rock, brushed against her. She spun. Four boys, no older than nineteen, were already laughing, already walking, already dissolving into the evening crowd the way guilt dissolves into denial.
 "Kato." Her voice was iron wrapped in silk. "Did you see that?"
@@ -1186,7 +1201,7 @@ They walked the rest of the way home without touching, the market bags now carri
   title: "My Second Wife",
   subtitle: "Courtesy of My Wife’s Imagination",
   category: "Poem",
-  featured: true,
+  date: "",
   text: `If I were to take a second wife,
 She’d have to be the finest prize of life.
 Gorgeous enough to make the goddesses stare,
@@ -1232,7 +1247,7 @@ To produce her ideal, if they get the specs right.`
   title: "Melanin Queen",
   subtitle: "",
   category: "Poem",
-  featured: false,
+  date: "",
   text: `I met you where Kampala slowly fades,
 Where the city gives way to quieter roads,
 And somehow, among all those ordinary days,
@@ -1406,7 +1421,7 @@ My Melanin Queen.`
   title: "Lone Child",
   subtitle: "An Anatomy of Solitude, Silent Longing, and Unspoken Wounds",
   category: "Poem",
-  featured: false,
+  date: "",
   text: `He grows in the quiet, befriending the air,
 Learns to need little, pretends not to care.
 He masters the art of appearing whole,
@@ -1433,7 +1448,7 @@ But nobody asks what he has buried in himself.`
   title: "The Fear Line",
   subtitle: "",
   category: "Poem",
-  featured: false,
+  date: "",
   text: `Hundred years, we're dust and bone,
 buried next to who we've known.
 Two hundred, the memory's gone,
@@ -1476,7 +1491,6 @@ But the way I lived, that's what I leave with.`
 
 /* =========================================================
    SITE CODE: no need to edit below
-   (optional per-piece field:  date: "March 2024")
    ========================================================= */
 (() => {
   "use strict";
@@ -1493,10 +1507,22 @@ But the way I lived, that's what I leave with.`
   const pad = i => String(i + 1).padStart(2, "0");
   POEMS.forEach(p => {
     p.mins = Math.max(1, Math.round(wordCount(p.text) / 200));
-    p.hay = [p.title, p.category, p.subtitle, p.text].join(" ").toLowerCase();
+    p.hay = [p.title, p.category, p.subtitle, p.date, p.text].join(" ").toLowerCase();
   });
-  const metaOf = p => [p.category, p.mins + " min read", p.date].filter(Boolean);
-  const metaEl = (p, cls) => { const m = el("div", "meta ui " + (cls || "")); metaOf(p).forEach(t => m.append(el("span", "", t))); return m; };
+
+  /* Newest piece = the LAST one in the list */
+  const newest = POEMS[POEMS.length - 1];
+  const newBadge = () => el("span", "badge", "New");
+
+  /* Info line: category · date (grey) · reading time */
+  const metaEl = (p, cls, noCat) => {
+    const m = el("div", "meta ui " + (cls || ""));
+    if (!noCat) m.append(el("span", "", p.category));
+    const d = p.date || DATE_PLACEHOLDER;
+    if (d) m.append(el("span", "date", d));
+    m.append(el("span", "", p.mins + " min read"));
+    return m;
+  };
 
   /* ----- Theme ----- */
   const themeBtn = $("#theme-btn");
@@ -1522,12 +1548,13 @@ But the way I lived, that's what I leave with.`
   const cats = [...new Set(POEMS.map(p => p.category))];
   $("#arch-total").textContent = POEMS.length + " pieces · " + cats.length + " categories";
 
-  const feat = POEMS.find(p => p.featured) || POEMS[0];
+  /* Featured = newest piece */
+  const feat = newest;
   const fBox = $("#feat");
   const fi = POEMS.indexOf(feat);
   const fText = el("div");
   const fq = el("blockquote", "", feat.text.split("\n").filter(l => l.trim()).slice(0, 4).join("\n").slice(0, 320));
-  const fh = el("h3"); const fa = el("a", "", feat.title); fa.href = "#/poem/" + feat.id; fh.append(fa);
+  const fh = el("h3"); const fa = el("a", "", feat.title); fa.href = "#/poem/" + feat.id; fh.append(fa, newBadge());
   const fr = el("a", "link-arrow", "Read the full piece"); fr.href = fa.href;
   fText.append(metaEl(feat), fh, fq, fr);
   fBox.append(el("div", "feat-n", pad(fi)), fText);
@@ -1542,7 +1569,7 @@ But the way I lived, that's what I leave with.`
   if (SITE.phone) addContact("Mobile", SITE.phone, "tel:" + (SITE.phoneHref || SITE.phone));
   SITE.social.forEach(s => { if (s.href) addContact("Elsewhere", s.label, s.href); });
 
-  /* ----- Archive: search + filter ----- */
+  /* ----- Archive: search + filter (newest first) ----- */
   const state = { q: "", cat: "All" };
   const q = $("#q"), list = $("#list"), count = $("#count"), empty = $("#empty"), clear = $("#clear");
   const chips = $("#chips");
@@ -1554,16 +1581,18 @@ But the way I lived, that's what I leave with.`
   function render() {
     [...chips.children].forEach(b => b.setAttribute("aria-pressed", b.textContent === state.cat));
     const terms = state.q.trim().toLowerCase().split(/\s+/).filter(Boolean);
-    const out = POEMS.filter(p => (state.cat === "All" || p.category === state.cat) && terms.every(t => p.hay.includes(t)));
+    const out = [...POEMS].reverse().filter(p => (state.cat === "All" || p.category === state.cat) && terms.every(t => p.hay.includes(t)));
     list.replaceChildren();
     out.forEach(p => {
       const li = el("li"), a = el("a", "row"); a.href = "#/poem/" + p.id;
-      const body = el("div"); body.append(el("h3", "", p.title), el("p", "", blurb(p)));
+      const body = el("div"), t = el("h3", "", p.title);
+      if (p === newest) t.append(newBadge());
+      body.append(t, el("p", "", blurb(p)));
       a.append(el("span", "num", pad(POEMS.indexOf(p))), body, metaEl(p));
       li.append(a); list.append(li);
     });
     const filtered = terms.length || state.cat !== "All";
-    count.textContent = filtered ? out.length + (out.length === 1 ? " piece" : " pieces") + " found" : "Showing all " + POEMS.length + " pieces";
+    count.textContent = filtered ? out.length + (out.length === 1 ? " piece" : " pieces") + " found" : "Showing all " + POEMS.length + " pieces, newest first";
     empty.hidden = out.length > 0;
     clear.hidden = !state.q;
   }
@@ -1678,20 +1707,22 @@ But the way I lived, that's what I leave with.`
   /* ----- Reader ----- */
   const reader = $("#reader"), home = $("#home"), piece = $("#piece"), bar = $("#progress");
   function showPiece(p) {
-    const i = POEMS.indexOf(p), prev = POEMS[i - 1], next = POEMS[i + 1];
+    const i = POEMS.indexOf(p), older = POEMS[i - 1], newer = POEMS[i + 1];
     piece.replaceChildren();
     const back = el("a", "back ui", "← Back to archive"); back.href = "#/archive";
     const head = el("header"), h1 = el("h1", "", p.title); h1.tabIndex = -1; h1.id = "piece-title";
-    head.append(el("p", "ui cat", pad(i) + " · " + p.category), h1);
+    const cat = el("p", "ui cat", pad(i) + " · " + p.category);
+    if (p === newest) cat.append(newBadge());
+    head.append(cat, h1);
     if (p.subtitle) head.append(el("p", "sub", p.subtitle));
-    const m = metaEl(p); m.firstChild.remove(); head.append(m);
+    head.append(metaEl(p, "", true));
     const prose = el("div", "prose"); prose.setAttribute("aria-labelledby", "piece-title");
     p.text.split(/\n\s*\n/).forEach(s => prose.append(el("p", "", s)));
     if (p.category === "Poem") prose.classList.add("verse");
     else if (wordCount(p.text) > 250 && /^["“]?[A-Za-z]/.test(p.text.trim())) prose.classList.add("dc");
     const pn = el("nav", "pn"); pn.setAttribute("aria-label", "More pieces");
-    const link = (x, label, side) => { const a = el("a"); a.href = "#/poem/" + x.id; a.append(el("span", "ui", label), el("strong", "", x.title)); return a; };
-    pn.append(prev ? link(prev, "← Previous") : el("span"), next ? link(next, "Next →") : el("span"));
+    const link = (x, label) => { const a = el("a"); a.href = "#/poem/" + x.id; a.append(el("span", "ui", label), el("strong", "", x.title)); return a; };
+    pn.append(newer ? link(newer, "← Newer") : el("span"), older ? link(older, "Older →") : el("span"));
     piece.append(back, head, prose, el("p", "orn", "✦ ✦ ✦"), feedbackEl(p), pn);
     document.title = p.title + " | " + SITE.title;
     window.scrollTo(0, 0); onScroll();
