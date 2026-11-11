@@ -306,6 +306,16 @@ section[id]{scroll-margin-top:var(--head)}
 .prose.dc p:first-child::first-letter{float:none;font-family:inherit;font-weight:inherit;font-size:inherit;line-height:inherit;padding:0;color:inherit}
 .piece.typeset .prose{font-family:var(--read);font-size:1.06rem}
 .pn strong{font-family:var(--hand);font-size:1.9rem;font-weight:600}
+/* Feather + stone */
+.gem,.cgem{cursor:default;touch-action:auto}
+.gem .f1,.cgem .f1{fill:var(--g1)}.gem .f2,.cgem .f2{fill:var(--g1);opacity:.7}
+.gem .f1,.gem .f2,.cgem .f1,.cgem .f2{stroke:var(--g3);stroke-width:.7;stroke-linejoin:round}
+.gem .barb,.cgem .barb{fill:none;stroke:var(--g3);stroke-width:.6;stroke-linecap:round;opacity:.6}
+.gem .rach,.cgem .rach{fill:none;stroke:var(--g3);stroke-width:1.5;stroke-linecap:round}
+.cgem .barb,.cgem .rach,.cgem .f1,.cgem .f2{stroke:#6F5589}
+.cgem .f1{fill:#E3D4F0}.cgem .f2{fill:#CDB9DF;opacity:1}
+.gem svg{transform-origin:50% 90%;animation:sway 7s ease-in-out infinite}
+@keyframes sway{0%,100%{transform:rotate(-2.5deg)}50%{transform:rotate(2.5deg)}}
 /* ---------- Responsive ---------- */
 @media(max-width:860px){.hero-foot{grid-template-columns:1fr}.cta{justify-content:flex-start}}
 @media(max-width:720px){
@@ -1997,8 +2007,32 @@ So who decides? I don’t have a neat answer. No priest, no government, no loud 
   const crystal = (r, s) => '<g transform="translate(32 54) rotate(' + r + ') scale(' + s + ') translate(-32 -54)">' +
     '<polygon class="g2" points="32,6 25,18 25,54 32,54"/><polygon class="g3" points="32,6 39,18 39,54 32,54"/>' +
     '<polygon class="g1" points="32,6 25,18 32,22 39,18"/></g>';
-  const gemSvg = () => '<svg viewBox="0 0 64 64" focusable="false">' +
-    [[-64, .55], [64, .55], [-38, .8], [38, .8], [0, 1]].map(a => crystal(a[0], a[1])).join("") + "</svg>";
+  const gemSvg = () => {
+    /* Feather: bare quill, tapered vane with a feathery edge, swept barbs */
+    const Y0 = 47, Y1 = 3, cx = y => 33 + (Y0 - y) * .035;
+    const prof = (y, W) => { const t = Math.min(1, Math.max(0, (Y0 - y) / (Y0 - Y1))); return W * Math.pow(Math.sin(Math.PI * Math.pow(t, .72)), .85); };
+    const R = [], L = [];
+    for (let y = Y0, k = 0; y >= Y1; y -= 2.2, k++) {
+      const j = k % 2 ? 1.2 : 0;
+      R.push((cx(y) + prof(y, 9.5) + j * (prof(y, 1) )).toFixed(1) + " " + y.toFixed(1));
+      L.push((cx(y) - prof(y, 6.5) - j * (prof(y, 1) * .8)).toFixed(1) + " " + y.toFixed(1));
+    }
+    const base = cx(Y0).toFixed(1) + " " + Y0, tip = cx(Y1).toFixed(1) + " " + Y1;
+    let barbs = "";
+    for (let y = Y0 - 3; y > Y1 + 6; y -= 3.4) {
+      const w1 = prof(y, 9.5), y1 = y - 4 - w1 * .75, w2 = prof(y1, 9.5);
+      const v1 = prof(y, 6.5), y2 = y - 3 - v1 * .6, v2 = prof(y2, 6.5);
+      barbs += '<path class="barb" d="M' + cx(y).toFixed(1) + ' ' + y.toFixed(1) + 'L' + (cx(y1) + w2 * .93).toFixed(1) + ' ' + y1.toFixed(1) +
+        'M' + cx(y).toFixed(1) + ' ' + y.toFixed(1) + 'L' + (cx(y2) - v2 * .93).toFixed(1) + ' ' + y2.toFixed(1) + '"/>';
+    }
+    const feather = '<g transform="translate(-3 0) rotate(24 32 60)">' +
+      '<path class="f2" d="M' + base + 'L' + L.join("L") + 'L' + tip + 'Z"/>' +
+      '<path class="f1" d="M' + base + 'L' + R.join("L") + 'L' + tip + 'Z"/>' +
+      barbs + '<path class="rach" d="M' + cx(60).toFixed(1) + ' 62L' + cx(Y1).toFixed(1) + ' ' + Y1 + '"/></g>';
+    const stones = '<g transform="translate(30 61) scale(.58) translate(-32 -54)">' +
+      [[-64, .55], [64, .55], [-38, .8], [38, .8], [0, 1]].map(a => crystal(a[0], a[1])).join("") + '</g>';
+    return '<svg viewBox="0 0 64 64" focusable="false">' + feather + stones + '</svg>';
+  };
   const gemEl = () => { const w = el("span", "gem"); w.setAttribute("aria-hidden", "true"); w.innerHTML = gemSvg(); return w; };
   const coverGem = $("#cover-gem"); if (coverGem) coverGem.innerHTML = gemSvg();
 
@@ -2077,11 +2111,7 @@ So who decides? I don’t have a neat answer. No priest, no government, no loud 
     } };
   }
   const destroyGem = () => { gemSeq++; if (gem3d) { gem3d.dispose(); gem3d = null; } };
-  const upgradeGem = host => {
-    const id = ++gemSeq;
-    loadThree().then(() => { if (id !== gemSeq || !host.isConnected) return; gem3d = build3D(host); }).catch(() => { /* keep the flat SVG */ });
-  };
-
+  const upgradeGem = () => {}; /* feather stays flat: no 3D upgrade */
   /* ----- Reader ----- */
   const reader = $("#reader"), home = $("#home"), piece = $("#piece"), bar = $("#progress");
   const handOn = false;
