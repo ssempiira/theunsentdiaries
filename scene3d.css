@@ -1,0 +1,22 @@
+/* The Amethyst Mind: 3D scroll layer. Load AFTER your main <style> and videos.css */
+html{background:var(--bg);transition:background .4s}
+body{background:transparent}
+main{position:relative;z-index:1}
+
+#scene3d{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;opacity:0;transition:opacity 1.4s ease}
+#scene3d.on{opacity:1}
+#scene3d.dim{opacity:.2}
+
+/* Featured room: plum glass, so crystals glow through it */
+#featured{background:color-mix(in srgb,var(--plum) 78%,transparent);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px)}
+:root[data-theme="dark"] #featured{background:color-mix(in srgb,#43324F 80%,transparent)}
+
+/* Scroll cue */
+.dive{position:fixed;left:50%;bottom:calc(22px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:5;
+  pointer-events:none;text-align:center;transition:opacity .6s}
+.dive::after{content:"";display:block;width:1px;height:34px;margin:10px auto 0;background:var(--accent);transform-origin:top;animation:dive 2.2s ease-in-out infinite}
+.dive.off{opacity:0}
+@keyframes dive{0%{transform:scaleY(0)}50%{transform:scaleY(1);opacity:1}100%{transform:scaleY(1);opacity:0}}
+
+@media(prefers-reduced-motion:reduce){#scene3d,.dive{display:none}}
+@media print{#scene3d,.dive{display:none}}
