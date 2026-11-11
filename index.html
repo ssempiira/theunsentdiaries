@@ -21,10 +21,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600&family=Literata:ital,wght@0,400;0,500;1,400&family=Caveat:wght@500;600;700&family=Kalam:wght@300;400&display=swap" rel="stylesheet">
 <script>
-/* Set theme before first paint: saved choice, else light */
-(function(){var t=null;try{t=localStorage.getItem("igs-theme")}catch(e){}
-if(t!=="light"&&t!=="dark")t="light";
-document.documentElement.dataset.theme=t})();
+/* Always start in light mode on every device */
+document.documentElement.dataset.theme="light";
 </script>
 <style>
 /* ---------- Colour system ----------
@@ -299,7 +297,6 @@ section[id]{scroll-margin-top:var(--head)}
 .piece h1{font-family:var(--hand);font-weight:700;font-size:clamp(2.7rem,8vw,4.6rem);line-height:1.05;margin:6px 0 6px}
 .piece .sub{font-family:var(--hand);font-style:normal;font-size:1.7rem;color:var(--mute);margin:0 0 12px}
 .piece .to{font-family:var(--hand);font-style:normal;font-size:1.7rem}
-.hand-tog{display:flex;justify-content:flex-end;margin:0 0 14px}
 .listen{background:color-mix(in srgb,var(--accent) 7%,transparent)}
 .prose{font-family:var(--penned);font-size:1.22rem;line-height:var(--lh);color:var(--ink);
   margin-left:calc(var(--ml) - var(--pl));padding-left:calc(var(--pl) - var(--ml));margin-right:calc(var(--pr) * -1);padding-right:var(--pr);
@@ -1816,7 +1813,6 @@ So who decides? I don’t have a neat answer. No priest, no government, no loud 
     themeBtn.textContent = t === "dark" ? "Light" : "Dark";
     themeBtn.setAttribute("aria-label", "Switch to " + (t === "dark" ? "light" : "dark") + " mode");
     $('meta[name="theme-color"]').content = t === "dark" ? "#241A2D" : "#3C2C49";
-    if (save) try { localStorage.setItem("igs-theme", t); } catch (e) {}
   }
   setTheme(root.dataset.theme);
   themeBtn.onclick = () => setTheme(root.dataset.theme === "dark" ? "light" : "dark", true);
@@ -2088,7 +2084,7 @@ So who decides? I don’t have a neat answer. No priest, no government, no loud 
 
   /* ----- Reader ----- */
   const reader = $("#reader"), home = $("#home"), piece = $("#piece"), bar = $("#progress");
-  let handOn = (() => { try { return localStorage.getItem("igs-hand") !== "0"; } catch (e) { return true; } })();
+  const handOn = false;
   function showPiece(p) {
     const i = POEMS.indexOf(p), older = POEMS[i - 1], newer = POEMS[i + 1];
     destroyGem(); piece.replaceChildren();
@@ -2104,9 +2100,6 @@ So who decides? I don’t have a neat answer. No priest, no government, no loud 
     if (p.subtitle) head.append(el("p", "sub", p.subtitle));
     if (p.to) { const t = el("p", "to", "To "); t.append(el("b", "", p.to)); head.append(t); }
     head.append(metaEl(p, "", true, true));
-    const tog = el("div", "hand-tog"), tb = el("button", "chip", "Handwritten"); tb.type = "button"; tb.setAttribute("aria-pressed", String(handOn));
-    tb.onclick = () => { handOn = !handOn; piece.classList.toggle("typeset", !handOn); tb.setAttribute("aria-pressed", String(handOn)); try { localStorage.setItem("igs-hand", handOn ? "1" : "0"); } catch (e) {} };
-    tog.append(tb);
     let listen = null;
     if (p.audio) {
       listen = el("div", "listen"); listen.append(el("span", "ui", "Listen · read by the author"));
@@ -2120,7 +2113,7 @@ So who decides? I don’t have a neat answer. No priest, no government, no loud 
     const link = (x, label) => { const a = el("a"); a.href = "#/poem/" + x.id; a.append(el("span", "ui", label), el("strong", "", x.title)); return a; };
     pn.append(newer ? link(newer, "← Later entry") : el("span"), older ? link(older, "Earlier entry →") : el("span"));
     const gemHost = gemEl();
-    piece.append(gemHost, back, head, tog, ...(listen ? [listen] : []), prose, el("p", "orn", "✦ ✦ ✦"), feedbackEl(p), pn);
+    piece.append(gemHost, back, head, ...(listen ? [listen] : []), prose, el("p", "orn", "✦ ✦ ✦"), feedbackEl(p), pn);
     document.title = p.title + " | " + SITE.title;
     window.scrollTo(0, 0); onScroll();
     h1.focus({ preventScroll: true });
