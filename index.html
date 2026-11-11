@@ -186,7 +186,9 @@ section[id]{scroll-margin-top:var(--head)}
 .pn a:last-child{text-align:right}
 .pn strong{display:block;font-family:var(--display);font-weight:500;font-size:1.5rem;line-height:1.15;margin-top:6px;transition:color .3s}
 .pn a:hover strong{color:var(--accent)}
-.gem{position:absolute;top:clamp(16px,3.4vw,34px);right:clamp(16px,3.4vw,34px);width:clamp(46px,7vw,68px);height:clamp(46px,7vw,68px);pointer-events:none}
+.gem{position:absolute;top:clamp(14px,3vw,30px);right:clamp(14px,3vw,30px);width:clamp(68px,10vw,104px);height:clamp(68px,10vw,104px);cursor:grab;touch-action:pan-y;-webkit-tap-highlight-color:transparent}
+.gem:active{cursor:grabbing}
+.gem canvas{display:block;width:100%;height:100%}
 .gem svg{display:block;width:100%;height:100%;overflow:visible;filter:drop-shadow(0 6px 10px rgba(60,44,73,.22))}
 .gem .g1{fill:var(--g1)}.gem .g2{fill:var(--g2)}.gem .g3{fill:var(--g3)}
 /* ---------- Reactions, share & comments ---------- */
@@ -1867,11 +1869,91 @@ So who decides? I don’t have a neat answer. No priest, no government, no loud 
     return w;
   };
 
+  /* ----- 3D amethyst cluster: three.js is fetched only when a piece is opened.
+     The flat SVG above shows first and stays as the fallback if WebGL is unavailable. ----- */
+  const THREE_SRC = "https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js";
+  let threeP = null, gemSeq = 0, gem3d = null;
+  const loadThree = () => threeP || (threeP = new Promise((ok, no) => {
+    if (window.THREE) return ok();
+    const s = document.createElement("script"); s.src = THREE_SRC; s.onload = ok;
+    s.onerror = () => { threeP = null; no(new Error("three.js failed to load")); };
+    document.head.append(s);
+  }));
+  const GEM_PAL = {
+    light: ["#8B6BA6", "#72578A", "#A88BC4", "#6A4F85", "#9C7DB8"],
+    dark:  ["#C9B2DF", "#BDA6D2", "#DCCBEB", "#A58CC0", "#D3BFE6"]
+  };
+  /* [tilt°, azimuth°, radius, height, palette index] */
+  const GEM_SPEC = [
+    [0, 0, .22, 1.1, 0],
+    [30, 0, .15, .8, 1], [34, 60, .13, .62, 2], [28, 120, .16, .85, 3], [36, 180, .12, .58, 4], [32, 240, .15, .74, 1], [30, 300, .13, .66, 2],
+    [62, 30, .08, .34, 3], [58, 150, .09, .38, 0], [64, 270, .08, .32, 4]
+  ];
+  function build3D(host) {
+    const T = window.THREE, w = host.clientWidth || 90, h = host.clientHeight || 90, rad = Math.PI / 180;
+    const renderer = new T.WebGLRenderer({ antialias: true, alpha: true });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+    renderer.setSize(w, h, false);
+    const scene = new T.Scene(), cam = new T.PerspectiveCamera(32, w / h, .1, 50);
+    cam.position.set(0, 1.25, 5.4); cam.lookAt(0, .72, 0);
+    scene.add(new T.AmbientLight(0xffffff, .62));
+    const key = new T.DirectionalLight(0xffffff, .95); key.position.set(3, 5, 4); scene.add(key);
+    const rim = new T.PointLight(0xb68cff, .9, 20); rim.position.set(-4, 2, -3); scene.add(rim);
+    const cluster = new T.Group(); cluster.rotation.x = .14; scene.add(cluster);
+    const mats = [], geos = [], edgeMat = new T.LineBasicMaterial({ color: 0xffffff, transparent: true, opacity: .22 });
+    GEM_SPEC.forEach(([tilt, az, r, ht, pi]) => {
+      const mat = new T.MeshPhysicalMaterial({ roughness: .22, metalness: .05, clearcoat: 1, clearcoatRoughness: .12, flatShading: true });
+      mat.userData.pi = pi; mats.push(mat);
+      const tip = r * 1.7, body = new T.CylinderGeometry(r, r, ht, 6, 1), cap = new T.ConeGeometry(r, tip, 6, 1);
+      const eb = new T.EdgesGeometry(body), ec = new T.EdgesGeometry(cap);
+      geos.push(body, cap, eb, ec);
+      const m1 = new T.Mesh(body, mat), m2 = new T.Mesh(cap, mat);
+      m1.position.y = ht / 2; m2.position.y = ht + tip / 2;
+      m1.add(new T.LineSegments(eb, edgeMat)); m2.add(new T.LineSegments(ec, edgeMat));
+      const piv = new T.Group(), cg = new T.Group();
+      piv.rotation.y = az * rad; cg.rotation.z = tilt * rad;
+      cg.add(m1, m2); piv.add(cg); cluster.add(piv);
+    });
+    const render = () => renderer.render(scene, cam);
+    const paint = () => {
+      const pal = GEM_PAL[root.dataset.theme === "dark" ? "dark" : "light"];
+      mats.forEach(m => { m.color.set(pal[m.userData.pi]); m.emissive.copy(m.color).multiplyScalar(.2); });
+      if (reduce) render();
+    };
+    paint();
+    const mo = new MutationObserver(paint); mo.observe(root, { attributes: true, attributeFilter: ["data-theme"] });
+    const onResize = () => { const nw = host.clientWidth, nh = host.clientHeight; if (!nw || !nh) return; renderer.setSize(nw, nh, false); cam.aspect = nw / nh; cam.updateProjectionMatrix(); if (reduce) render(); };
+    addEventListener("resize", onResize);
+    let raf = 0, drag = null;
+    const tick = () => { if (!drag) cluster.rotation.y += .007; render(); raf = requestAnimationFrame(tick); };
+    if (reduce) render(); else tick();
+    host.onpointerdown = e => { drag = { x: e.clientX, y: e.clientY }; try { host.setPointerCapture(e.pointerId); } catch (x) {} };
+    host.onpointermove = e => {
+      if (!drag) return;
+      cluster.rotation.y += (e.clientX - drag.x) * .012;
+      cluster.rotation.x = Math.max(-.4, Math.min(.6, cluster.rotation.x + (e.clientY - drag.y) * .008));
+      drag = { x: e.clientX, y: e.clientY }; if (reduce) render();
+    };
+    host.onpointerup = host.onpointercancel = () => { drag = null; };
+    host.replaceChildren(renderer.domElement);
+    return { dispose() {
+      cancelAnimationFrame(raf); mo.disconnect(); removeEventListener("resize", onResize);
+      host.onpointerdown = host.onpointermove = host.onpointerup = host.onpointercancel = null;
+      geos.forEach(g => g.dispose()); mats.forEach(m => m.dispose()); edgeMat.dispose();
+      renderer.dispose(); if (renderer.forceContextLoss) renderer.forceContextLoss();
+    } };
+  }
+  const destroyGem = () => { gemSeq++; if (gem3d) { gem3d.dispose(); gem3d = null; } };
+  const upgradeGem = host => {
+    const id = ++gemSeq;
+    loadThree().then(() => { if (id !== gemSeq || !host.isConnected) return; gem3d = build3D(host); }).catch(() => { /* keep the flat SVG */ });
+  };
+
   /* ----- Reader ----- */
   const reader = $("#reader"), home = $("#home"), piece = $("#piece"), bar = $("#progress");
   function showPiece(p) {
     const i = POEMS.indexOf(p), older = POEMS[i - 1], newer = POEMS[i + 1];
-    piece.replaceChildren();
+    destroyGem(); piece.replaceChildren();
     const back = el("a", "back ui", "← Back to archive"); back.href = "#/archive";
     const head = el("header"), h1 = el("h1", "", p.title); h1.tabIndex = -1; h1.id = "piece-title";
     const cat = el("p", "ui cat", pad(i) + " · " + p.category);
@@ -1886,10 +1968,12 @@ So who decides? I don’t have a neat answer. No priest, no government, no loud 
     const pn = el("nav", "pn"); pn.setAttribute("aria-label", "More pieces");
     const link = (x, label) => { const a = el("a"); a.href = "#/poem/" + x.id; a.append(el("span", "ui", label), el("strong", "", x.title)); return a; };
     pn.append(newer ? link(newer, "← Newer") : el("span"), older ? link(older, "Older →") : el("span"));
-    piece.append(gemEl(), back, head, prose, el("p", "orn", "✦ ✦ ✦"), feedbackEl(p), pn);
+    const gemHost = gemEl();
+    piece.append(gemHost, back, head, prose, el("p", "orn", "✦ ✦ ✦"), feedbackEl(p), pn);
     document.title = p.title + " | " + SITE.title;
     window.scrollTo(0, 0); onScroll();
     h1.focus({ preventScroll: true });
+    upgradeGem(gemHost);
   }
   function onScroll() {
     if (reader.hidden) return;
@@ -1907,7 +1991,7 @@ So who decides? I don’t have a neat answer. No priest, no government, no loud 
     const p = m && POEMS.find(x => x.id === m[1]);
     home.hidden = !!p; reader.hidden = !p; markNav(p ? "" : h);
     if (p) { wasReader = true; showPiece(p); return; }
-    document.title = baseTitle; bar.style.transform = "scaleX(0)";
+    destroyGem(); document.title = baseTitle; bar.style.transform = "scaleX(0)";
     const id = { "#/featured": "featured", "#/archive": "archive" }[h];
     requestAnimationFrame(() => {
       if (id) $("#" + id).scrollIntoView({ behavior: reduce || wasReader ? "auto" : "smooth" });
