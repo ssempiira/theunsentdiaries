@@ -1,0 +1,38 @@
+/* The Amethyst Mind: kinetic words. Load AFTER your main <style> and videos.css */
+html{background:var(--bg);transition:background .4s}
+body{background:transparent}
+main{position:relative;z-index:1}
+
+#scene3d{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;opacity:0;transition:opacity 1.4s ease}
+#scene3d.on{opacity:1}
+#scene3d.dim{opacity:0}
+
+/* Featured room: plum glass */
+#featured{background:color-mix(in srgb,var(--plum) 78%,transparent);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px)}
+:root[data-theme="dark"] #featured{background:color-mix(in srgb,#43324F 80%,transparent)}
+
+/* Keep hero words crisp over the moving words */
+.hero h1,.tagline,.hero .kicker{text-shadow:0 0 26px color-mix(in srgb,var(--bg) 75%,transparent),0 0 6px color-mix(in srgb,var(--bg) 60%,transparent)}
+.hero .link-arrow{text-shadow:0 0 14px color-mix(in srgb,var(--bg) 85%,transparent)}
+
+/* Hero tagline: ink-in, letter by letter */
+.tword{display:inline-block;white-space:nowrap}
+.ink{display:inline-block;opacity:0;filter:blur(8px);transform:translateY(.3em);animation:ink 1.2s cubic-bezier(.2,.7,.2,1) forwards}
+@keyframes ink{to{opacity:1;filter:blur(0);transform:none}}
+
+/* Poems: stanzas and lines write in as they scroll into view */
+.wr{opacity:0;transform:translateY(16px);filter:blur(6px);transition:opacity 1s ease,transform 1s cubic-bezier(.2,.7,.2,1),filter 1s ease}
+.wr.in{opacity:1;transform:none;filter:none}
+.wr.vs{opacity:1;transform:none;filter:none}
+.ln{display:block;opacity:0;transform:translateY(12px);filter:blur(5px);transition:opacity .9s ease,transform .9s cubic-bezier(.2,.7,.2,1),filter .9s ease}
+.wr.in .ln{opacity:1;transform:none;filter:none}
+
+/* Scroll cue */
+.dive{position:fixed;left:50%;bottom:calc(22px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:5;
+  pointer-events:none;text-align:center;transition:opacity .6s}
+.dive::after{content:"";display:block;width:1px;height:34px;margin:10px auto 0;background:var(--accent);transform-origin:top;animation:dive 2.2s ease-in-out infinite}
+.dive.off{opacity:0}
+@keyframes dive{0%{transform:scaleY(0)}50%{transform:scaleY(1);opacity:1}100%{transform:scaleY(1);opacity:0}}
+
+@media(prefers-reduced-motion:reduce){#scene3d,.dive{display:none}}
+@media print{#scene3d,.dive{display:none}.wr,.ln,.ink{opacity:1!important;transform:none!important;filter:none!important}}
