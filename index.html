@@ -26,24 +26,24 @@ document.documentElement.dataset.theme="light";
 </script>
 <style>
 /* ---------- Colour system ----------
-   Champagne Cream #F7F1E7 · Silk Ivory #FFFCF7 · Muted Champagne #E7D8C5
+   Lavender Mist (60%) #E4DCF0 / #FAF7FE · Amethyst (30%) #72578A / #3C2C49 · Aqua (10%) #3CCFD2
    Amethyst #72578A · Imperial Plum #3C2C49 · Literary Ink #332D35 */
 :root{
   --display:"Cormorant Garamond","Cormorant",Georgia,"Times New Roman",serif;
   --read:Literata,"Source Serif 4",Charter,"Iowan Old Style",Georgia,serif;
   --ui:Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
   --wrap:1120px;--pad:clamp(20px,5vw,56px);--head:68px;
-  --cream:#F7F1E7;--ivory:#FFFCF7;--champagne:#E7D8C5;--amethyst:#72578A;--plum:#3C2C49;--ink-c:#332D35;
+  --cream:#F1ECF8;--ivory:#FAF7FE;--champagne:#D5C9E8;--aqua:#3CCFD2;--aqua-deep:#0B8A90;--amethyst:#72578A;--plum:#3C2C49;--ink-c:#332D35;
   /* light (default) */
-  --bg:#D9CBB6;--surface:var(--ivory);--bg2:var(--champagne);--ink:var(--ink-c);
-  --mute:color-mix(in srgb,#332D35 72%,#F7F1E7);--accent:var(--amethyst);--on-accent:var(--ivory);
-  --nav:var(--plum);--line:var(--champagne);--line-soft:color-mix(in srgb,#E7D8C5 55%,transparent);--grain:.03;
+  --bg:#E4DCF0;--surface:var(--ivory);--bg2:var(--champagne);--ink:var(--ink-c);
+  --mute:color-mix(in srgb,#332D35 72%,#F1ECF8);--accent:var(--amethyst);--on-accent:var(--ivory);
+  --nav:var(--plum);--line:#C3B3DA;--line-soft:color-mix(in srgb,#C3B3DA 55%,transparent);--grain:.03;
   --shadow:0 1px 0 rgba(60,44,73,.04),0 28px 60px -28px rgba(60,44,73,.22);
   --g1:#B79BD0;--g2:#8B6BA6;--g3:#5E4577;
 }
 :root[data-theme="dark"]{
-  --bg:#251B2E;--surface:#3C2C49;--bg2:#36283F;--ink:#F7F1E7;--mute:#D0C3D6;--accent:#BDA6D2;--on-accent:#332D35;
-  --nav:#241A2D;--line:color-mix(in srgb,#E7D8C5 24%,transparent);--line-soft:color-mix(in srgb,#E7D8C5 14%,transparent);--grain:.05;
+  --bg:#231B30;--surface:#31263F;--bg2:#2B2138;--ink:#F1ECF8;--mute:#CFC4DD;--accent:#BDA6D2;--on-accent:#332D35;
+  --nav:#241A2D;--line:color-mix(in srgb,#D5C9E8 24%,transparent);--line-soft:color-mix(in srgb,#D5C9E8 14%,transparent);--grain:.05;
   --shadow:0 28px 60px -28px rgba(0,0,0,.55);
   --g1:#E3D4F0;--g2:#BDA6D2;--g3:#8E75A8;
 }
@@ -241,20 +241,20 @@ section[id]{scroll-margin-top:var(--head)}
   --hand:"Caveat","Kalam","Segoe Script","Bradley Hand",cursive;
   --penned:"Kalam","Caveat","Segoe Script","Bradley Hand",cursive;
   --lh:2.15rem;
-  --rule:rgba(114,87,138,.2);--margin:rgba(196,98,122,.5);
+  --rule:rgba(114,87,138,.2);--margin:rgba(60,207,210,.65);
   --page-shadow:1px 1px 0 var(--surface),2px 2px 0 var(--line),4px 4px 0 var(--surface),5px 5px 0 var(--line),0 34px 50px -28px rgba(30,15,40,.55);
 }
-:root[data-theme="dark"]{--rule:rgba(231,216,197,.13);--margin:rgba(214,150,172,.42)}
+:root[data-theme="dark"]{--rule:rgba(213,201,232,.13);--margin:rgba(90,220,222,.5)}
 /* Cover */
 .hero{padding:clamp(36px,7vh,88px) 0 clamp(68px,10vh,108px)}
 .hero::after{display:none}
 .cover{position:relative;max-width:760px;margin:0 auto;border-radius:6px 16px 16px 6px;padding:clamp(16px,3vw,28px);color:var(--champagne);
   background:linear-gradient(90deg,rgba(0,0,0,.4) 0,rgba(255,255,255,.07) 12px,rgba(0,0,0,.28) 24px,transparent 52px),radial-gradient(120% 100% at 28% 18%,#5B4472 0%,#3C2C49 52%,#2A1D36 100%);
-  box-shadow:5px 0 0 -1px #EADFCB,9px 3px 0 -2px #D8C9AE,0 40px 60px -28px rgba(20,8,30,.65)}
+  box-shadow:5px 0 0 -1px #E6DEF2,9px 3px 0 -2px #C9BCDF,0 40px 60px -28px rgba(20,8,30,.65)}
 .cover::before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;opacity:.45;mix-blend-mode:overlay;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
-.cover::after{content:"";position:absolute;left:30px;top:16px;bottom:16px;border-left:2px dashed rgba(231,216,197,.35);pointer-events:none}
-.cover-in{position:relative;z-index:1;margin-left:clamp(22px,5vw,44px);border:1.5px dashed rgba(231,216,197,.4);border-radius:4px 10px 10px 4px;padding:clamp(28px,6vw,60px) clamp(16px,5vw,56px);text-align:center}
+.cover::after{content:"";position:absolute;left:30px;top:16px;bottom:16px;border-left:2px dashed rgba(213,201,232,.35);pointer-events:none}
+.cover-in{position:relative;z-index:1;margin-left:clamp(22px,5vw,44px);border:1.5px dashed rgba(213,201,232,.4);border-radius:4px 10px 10px 4px;padding:clamp(28px,6vw,60px) clamp(16px,5vw,56px);text-align:center}
 .ribbon{position:absolute;z-index:2;right:15%;top:calc(100% - 34px);width:22px;height:86px;background:linear-gradient(90deg,#5E4577,#8B6BA6 50%,#5E4577);clip-path:polygon(0 0,100% 0,100% 100%,50% calc(100% - 14px),0 100%)}
 .cgem{display:block;width:clamp(64px,10vw,92px);height:clamp(64px,10vw,92px);margin:0 auto 10px;--g1:#E3D4F0;--g2:#BDA6D2;--g3:#8E75A8}
 .cgem svg{display:block;width:100%;height:100%;overflow:visible;filter:drop-shadow(0 3px 0 rgba(0,0,0,.35))}
@@ -262,11 +262,11 @@ section[id]{scroll-margin-top:var(--head)}
 .cover-kicker{margin:0 0 4px;color:var(--champagne);letter-spacing:.3em}
 .cover h1{margin:.12em 0 .22em;font-weight:400;font-size:clamp(2.4rem,8.4vw,5.4rem);color:var(--champagne);text-shadow:0 1px 0 rgba(0,0,0,.55),0 -1px 0 rgba(255,255,255,.14)}
 .cover h1 em{color:#CDB9DF}
-.label{display:inline-block;max-width:24rem;margin:16px auto 26px;background:#EFE3CF;color:#3C2C49;padding:14px 26px;border:1px solid rgba(60,44,73,.35);box-shadow:inset 0 0 0 3px #EFE3CF,inset 0 0 0 4px rgba(114,87,138,.45),0 2px 6px rgba(0,0,0,.35);transform:rotate(-1.2deg)}
+.label{display:inline-block;max-width:24rem;margin:16px auto 26px;background:#EDE6F7;color:#3C2C49;padding:14px 26px;border:1px solid rgba(60,44,73,.35);box-shadow:inset 0 0 0 3px #EDE6F7,inset 0 0 0 4px rgba(114,87,138,.45),0 2px 6px rgba(0,0,0,.35);transform:rotate(-1.2deg)}
 .label .tagline{margin:0;max-width:none;color:#3C2C49;font-size:clamp(1.5rem,3vw,2rem);text-align:center}
 .label .tl{margin:6px 0 0;color:#6B5C78}
 .cover .cta{justify-content:center;gap:12px 30px}
-.cover .link-arrow{color:var(--champagne);border-color:rgba(231,216,197,.45)}
+.cover .link-arrow{color:var(--champagne);border-color:rgba(213,201,232,.45)}
 .cover .link-arrow:hover{color:#fff;border-color:#fff}
 /* Paper sheets: archive page, latest entry, every opened entry */
 .sheet{--ml:76px;--pl:100px;--pr:clamp(18px,5vw,56px);position:relative;border:1px solid var(--line);border-radius:3px 9px 9px 3px;box-shadow:var(--page-shadow);
@@ -316,6 +316,18 @@ section[id]{scroll-margin-top:var(--head)}
 .cgem .f1{fill:#E3D4F0}.cgem .f2{fill:#CDB9DF;opacity:1}
 .gem svg{transform-origin:50% 90%;animation:sway 7s ease-in-out infinite}
 @keyframes sway{0%,100%{transform:rotate(-2.5deg)}50%{transform:rotate(2.5deg)}}
+/* ---------- 60 lavender mist / 30 amethyst / 10 aqua ---------- */
+.badge{background:var(--aqua);color:#3C2C49}
+.link-arrow{border-bottom-color:var(--aqua)}
+.link-arrow:hover{border-color:var(--aqua)}
+.cover .link-arrow{border-color:rgba(60,207,210,.7)}
+.cover .link-arrow:hover{border-color:var(--aqua)}
+.progress{background:var(--aqua)}
+.ribbon{background:linear-gradient(90deg,#19A9AD,#3CCFD2 50%,#19A9AD)}
+.row:hover,.row:focus-visible{box-shadow:inset 3px 0 0 var(--aqua)}
+.stamp{color:var(--aqua-deep);border-color:var(--aqua)}
+.sec-head h2::after{background:var(--aqua);opacity:.85}
+.feat blockquote{border-left-color:var(--aqua)}
 /* ---------- Responsive ---------- */
 @media(max-width:860px){.hero-foot{grid-template-columns:1fr}.cta{justify-content:flex-start}}
 @media(max-width:720px){
@@ -443,7 +455,7 @@ const SITE = {
     "Some became poems. Some became stories.\nSome are only a quiet kind of confession.\nAll of them began as something I could not say out loud.",
     "I write where the door stays closed\nand the lamp burns low,\nwhere the walls have learned to keep a secret,\nin the narrow space between what we feel\nand what we are allowed to say.",
     "These are letters to people who never knew,\nand to the man I am still becoming.",
-    "These words were ghosts meant to fade in my hands,\nyet they wandered through the dark and found their way to you."
+    "Unsent, these words were ghosts meant to fade in my hands,\nyet they wandered through the dark and found their way to you."
   ],
   url: "",                     // your live website address, e.g. "https://yourname.com/" (used in share links; leave "" to use the current address)
   social: []                   // e.g. [{ label: "Instagram", href: "https://..." }] (empty = nothing shown)
