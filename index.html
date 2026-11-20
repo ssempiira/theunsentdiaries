@@ -195,7 +195,7 @@ section[id]{scroll-margin-top:var(--head)}
 .lead{margin:0 0 28px;color:var(--mute);font-family:var(--display);font-style:italic;font-size:1.4rem;line-height:1.4;max-width:34em}
 .about{display:grid;grid-template-columns:1fr 1.4fr;gap:32px clamp(32px,6vw,80px);align-items:start;border-top:1px solid var(--accent);padding-top:36px}
 .motto{font-family:var(--display);font-style:italic;font-weight:400;font-size:clamp(2rem,4.2vw,3rem);line-height:1.15;margin:0 0 12px;color:var(--ink)}
-.about-text p{margin:0 0 1.2em;font-size:1.15rem;line-height:1.75}
+.about-text p{margin:0 0 1.2em;font-size:1.15rem;line-height:1.75;white-space:pre-line}
 @media(max-width:860px){.about{grid-template-columns:1fr}}
 /* ---------- Reactions, share & comments ---------- */
 .fb{margin:0 0 56px}
@@ -345,9 +345,9 @@ section[id]{scroll-margin-top:var(--head)}
     <a class="brand" href="#/" aria-label="The Amethyst Mind, home">The Amethyst <b> Mind</b></a>
     <nav class="menu" aria-label="Primary">
       <ul id="nav-list">
+        <li><a href="#/about">About</a></li>
         <li><a href="#/featured">Featured</a></li>
         <li><a href="#/archive">Archive</a></li>
-        <li><a href="#/about">About</a></li>
         <li><a href="#/contact">Contact</a></li>
       </ul>
       <button class="btn-ghost" id="theme-btn" type="button">Light</button>
@@ -372,6 +372,16 @@ section[id]{scroll-margin-top:var(--head)}
               <a class="link-arrow" href="#/featured">Read the latest page</a>
             </div>
           </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="block" id="about" aria-labelledby="about-h">
+      <div class="wrap">
+        <div class="sec-head"><h2 id="about-h">About</h2></div>
+        <div class="about">
+          <div><p class="motto" id="motto"></p><p class="ui" id="motto-en"></p></div>
+          <div class="about-text" id="about-text"></div>
         </div>
       </div>
     </section>
@@ -402,16 +412,6 @@ section[id]{scroll-margin-top:var(--head)}
         </div>
       </div>
     </section>
-    <section class="block" id="about" aria-labelledby="about-h">
-      <div class="wrap">
-        <div class="sec-head"><h2 id="about-h">About</h2></div>
-        <div class="about">
-          <div><p class="motto" id="motto"></p><p class="ui" id="motto-en"></p></div>
-          <div class="about-text" id="about-text"></div>
-        </div>
-      </div>
-    </section>
-
     <section class="block" id="contact" aria-labelledby="contact-h">
       <div class="wrap">
         <div class="sec-head"><h2 id="contact-h">Contact</h2></div>
@@ -439,10 +439,11 @@ const SITE = {
   taglineEn: "Words I never sent",
   email: "",                   // put your email here, e.g. "you@gmail.com": the Contact section appears once this is filled
   about: [                     // the About section: edit these lines in your own words
-    "The Unsent Diaries is where I keep the words I never sent: letters to fathers and lovers, to faith, to people who never knew, and to the man I am still becoming.",
-    "Some are poems, some are compositions, some are stories. All of them began as something I could not say out loud.",
-    "I write from Uganda, in the space between what we feel and what we are allowed to say.",
-    "If a piece finds you, tell me. If it doesn’t, tell me that too."
+    "These are the words that stayed behind.\nThe ones that rose to my throat and sat there,\ntoo heavy to speak, too true to bury.",
+    "Some became poems. Some became stories.\nSome are only a quiet kind of confession.\nAll of them began as something I could not say out loud.",
+    "I write where the door stays closed\nand the lamp burns low,\nwhere the walls have learned to keep a secret,\nin the narrow space between what we feel\nand what we are allowed to say.",
+    "These are letters to people who never knew,\nand to the man I am still becoming.",
+    "These words were ghosts meant to fade in my hands,\nyet they wandered through the dark and found their way to you."
   ],
   url: "",                     // your live website address, e.g. "https://yourname.com/" (used in share links; leave "" to use the current address)
   social: []                   // e.g. [{ label: "Instagram", href: "https://..." }] (empty = nothing shown)
